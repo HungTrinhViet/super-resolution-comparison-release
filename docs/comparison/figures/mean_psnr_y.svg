@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="740" viewBox="0 0 1100 740">
+<rect width="1100" height="740" fill="white"/>
+<g font-family="sans-serif" fill="black">
+<text x="55.000" y="35.000" font-size="23" text-anchor="start">Mean psnr_y</text>
+<metadata>[{&quot;algorithm&quot;:&quot;Bicubic&quot;,&quot;n_images&quot;:5,&quot;rgb_psnr&quot;:26.695954903258883,&quot;rgb_ssim&quot;:0.7733690286120867,&quot;y_psnr&quot;:28.431751545333157,&quot;y_ssim&quot;:0.8112624637779332},{&quot;algorithm&quot;:&quot;SRCNN&quot;,&quot;n_images&quot;:5,&quot;rgb_psnr&quot;:28.480807849950406,&quot;rgb_ssim&quot;:0.8238826552725005,&quot;y_psnr&quot;:30.480638328319134,&quot;y_ssim&quot;:0.8625609250590189},{&quot;algorithm&quot;:&quot;FSRCNN&quot;,&quot;n_images&quot;:5,&quot;rgb_psnr&quot;:28.66901790435706,&quot;rgb_ssim&quot;:0.8264622443372334,&quot;y_psnr&quot;:30.70161736962414,&quot;y_ssim&quot;:0.865448943438043},{&quot;algorithm&quot;:&quot;EDSR&quot;,&quot;n_images&quot;:5,&quot;rgb_psnr&quot;:30.183991363757947,&quot;rgb_ssim&quot;:0.8630856201062329,&quot;y_psnr&quot;:32.09792878182115,&quot;y_ssim&quot;:0.8938164820307627},{&quot;algorithm&quot;:&quot;ESRGAN&quot;,&quot;n_images&quot;:5,&quot;rgb_psnr&quot;:28.543261909495858,&quot;rgb_ssim&quot;:0.8145200397191816,&quot;y_psnr&quot;:30.474235657016617,&quot;y_ssim&quot;:0.8518006172875806}] </metadata>
+<rect x="75" y="59" width="17" height="17" fill="#0072B2"/>
+<text x="99.000" y="73.000" font-size="15" text-anchor="start">Bicubic</text>
+<rect x="270" y="59" width="17" height="17" fill="#E69F00"/>
+<text x="294.000" y="73.000" font-size="15" text-anchor="start">SRCNN</text>
+<rect x="465" y="59" width="17" height="17" fill="#009E73"/>
+<text x="489.000" y="73.000" font-size="15" text-anchor="start">FSRCNN</text>
+<rect x="660" y="59" width="17" height="17" fill="#D55E00"/>
+<text x="684.000" y="73.000" font-size="15" text-anchor="start">EDSR</text>
+<rect x="855" y="59" width="17" height="17" fill="#CC79A7"/>
+<text x="879.000" y="73.000" font-size="15" text-anchor="start">ESRGAN</text>
+<text x="65.000" y="111.000" font-size="15" text-anchor="start">PSNR Y (dB)</text>
+<line x1="90" y1="545.000" x2="1060" y2="545.000" stroke="#dddddd"/>
+<text x="80.000" y="550.000" font-size="14" text-anchor="end">0</text>
+<line x1="90" y1="463.000" x2="1060" y2="463.000" stroke="#dddddd"/>
+<text x="80.000" y="468.000" font-size="14" text-anchor="end">7</text>
+<line x1="90" y1="381.000" x2="1060" y2="381.000" stroke="#dddddd"/>
+<text x="80.000" y="386.000" font-size="14" text-anchor="end">14</text>
+<line x1="90" y1="299.000" x2="1060" y2="299.000" stroke="#dddddd"/>
+<text x="80.000" y="304.000" font-size="14" text-anchor="end">21</text>
+<line x1="90" y1="217.000" x2="1060" y2="217.000" stroke="#dddddd"/>
+<text x="80.000" y="222.000" font-size="14" text-anchor="end">28</text>
+<line x1="90" y1="135.000" x2="1060" y2="135.000" stroke="#dddddd"/>
+<text x="80.000" y="140.000" font-size="14" text-anchor="end">35</text>
+<path d="M90 130 V545 H1060" stroke="black" fill="none"/>
+<text x="185.000" y="575.000" font-size="15" text-anchor="middle">Bicubic</text>
+<rect x="146.000" y="211.942" width="78" height="333.058" fill="#0072B2"/>
+<text x="185.000" y="204.942" font-size="14" text-anchor="middle">28.43</text>
+<text x="377.000" y="575.000" font-size="15" text-anchor="middle">SRCNN</text>
+<rect x="338.000" y="187.941" width="78" height="357.059" fill="#E69F00"/>
+<text x="377.000" y="180.941" font-size="14" text-anchor="middle">30.48</text>
+<text x="569.000" y="575.000" font-size="15" text-anchor="middle">FSRCNN</text>
+<rect x="530.000" y="185.352" width="78" height="359.648" fill="#009E73"/>
+<text x="569.000" y="178.352" font-size="14" text-anchor="middle">30.70</text>
+<text x="761.000" y="575.000" font-size="15" text-anchor="middle">EDSR</text>
+<rect x="722.000" y="168.996" width="78" height="376.004" fill="#D55E00"/>
+<text x="761.000" y="161.996" font-size="14" text-anchor="middle">32.10</text>
+<text x="953.000" y="575.000" font-size="15" text-anchor="middle">ESRGAN</text>
+<rect x="914.000" y="188.016" width="78" height="356.984" fill="#CC79A7"/>
+<text x="953.000" y="181.016" font-size="14" text-anchor="middle">30.47</text>
+<text x="55.000" y="615.000" font-size="14" text-anchor="start">Source: approved run metrics.json; full-precision values, rounding only for labels.</text>
+<text x="55.000" y="639.000" font-size="14" text-anchor="start">Y BT.601; crop4; data_range255; per-image arithmetic means for mean charts.</text>
+</g>
+</svg>

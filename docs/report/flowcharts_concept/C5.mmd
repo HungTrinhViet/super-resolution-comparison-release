@@ -1,0 +1,26 @@
+%% M9.8b: at most two short visible lines per processing box.
+%% M98_NODE: C-to-L mapping and original fine details (not rendered).
+flowchart TB
+  %% M98_NODE {"id": "C5_1", "correspondingLids": ["L5_A1", "L5_A2"], "details": {"L5_A1": "Ngoài timing: SHA256 → params/74 entries FP32 finite → strict/1,517,571 parameters → eval.", "L5_A2": "RGB uint8 H×W×3 → RGB FP32 [0,1], NCHW 1×3×H×W; inference_mode."}}
+  C5_1["Xác minh trọng số; nạp mạng trước khi đo<br/>RGB uint8 /255 → FP32 1×3×H×W"]
+  %% M98_NODE {"id": "C5_2", "correspondingLids": ["L5_A3"], "details": {"L5_A3": "(x−RGBmean)×255; mean=(.4488,.4371,.4040). conv_first3×3 3→64 zero-pad1 → head 1×64×H×W."}}
+  C5_2["Trừ trung bình (0.4488,0.4371,0.4040) rồi nhân 255<br/>Tích chập 3×3 3→64, đệm 0 rộng 1"]
+  %% M98_NODE {"id": "C5_3", "correspondingLids": ["L5_A4"], "details": {"L5_A4": "16 lần: x + conv3(ReLU(conv3(x)))×1; cả hai conv64→64 zero-pad1; không BN; giữ H×W."}}
+  C5_3["16 khối 64 kênh: tích chập 3×3 → ReLU → 3×3<br/>Đệm 0 rộng 1; cộng đầu vào, nhánh ×1; không BN"]
+  %% M98_NODE {"id": "C5_4", "correspondingLids": ["L5_A5"], "details": {"L5_A5": "conv_after_body3×3 64→64 zero-pad1; cộng head (global skip). FP32 1×64×H×W. Tiếp B1."}}
+  C5_4["Tích chập 3×3 64→64, đệm 0 rộng 1<br/>Cộng đặc trưng đầu qua nhánh tắt toàn cục"]
+  %% M98_NODE {"id": "C5_5", "correspondingLids": ["L5_B1"], "details": {"L5_B1": "conv3 64→256 zero-pad1 → PixelShuffle2: 1×64×2H×2W; lặp conv3/shuffle2 → 1×64×4H×4W."}}
+  C5_5["Hai lần: tích chập 3×3 64→256 → PixelShuffle ×2<br/>Đệm 0 rộng 1; H×W → 2H×2W → 4H×4W, 64 kênh"]
+  %% M98_NODE {"id": "C5_6", "correspondingLids": ["L5_B2"], "details": {"L5_B2": "conv_last3×3 64→3 zero-pad1, tuyến tính; add_mean: x/255+RGBmean → RGB FP32 1×3×4H×4W."}}
+  C5_6["Tích chập 3×3 64→3 tuyến tính, đệm 0 rộng 1<br/>Chia 255, cộng trung bình → RGB FP32 1×3×4H×4W"]
+  %% M98_NODE {"id": "C5_7", "correspondingLids": ["L5_B3", "L5_B4"], "details": {"L5_B3": "Lấy batch0 ×255 → CHW intensities FP32; finite check; đếm exact-half trước lượng tử.", "L5_B4": "Finite → clamp[0,255] → torch.round half-to-even → uint8; permute/copy → RGB 4H×4W×3."}}
+  C5_7["×255 → hữu hạn → giới hạn [0,255]<br/>Half-to-even → RGB uint8 4H×4W×3"]
+  %% M98_NODE {"id": "C5_8", "correspondingLids": ["L5_B5"], "details": {"L5_B5": "RGB uint8 → shape check → Y float64/crop4; RGB crop4 phụ. Metric chung L1."}}
+  C5_8["HR/SR cùng kích thước → Y float64<br/>Cắt 4 pixel mỗi cạnh → PSNR/SSIM Y; RGB phụ"]
+  C5_1 --> C5_2
+  C5_2 --> C5_3
+  C5_3 --> C5_4
+  C5_4 --> C5_5
+  C5_5 --> C5_6
+  C5_6 --> C5_7
+  C5_7 --> C5_8

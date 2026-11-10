@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 702" width="680" height="702" role="img" aria-labelledby="C1_title">
+  <title id="C1_title">C1 · Quy trình so sánh ảnh ×4</title>
+  <desc>Two-line processing boxes; original technical details in nonvisible metadata and Mermaid comments.</desc>
+  <metadata>[{"id": "C1_1", "correspondingLids": ["L1_A1", "L1_A6"], "details": {"L1_A1": "Bốn runner mạng; CPU FP32, batch 1; threads 4/1.", "L1_A6": "Nhánh Bicubic Set5: load_pair → vòng lặp B1; không verify_lock/nạp model."}}, {"id": "C1_2", "correspondingLids": ["L1_A3", "L1_A6"], "details": {"L1_A3": "RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise.", "L1_A6": "Nhánh Bicubic Set5: load_pair → vòng lặp B1; không verify_lock/nạp model."}}, {"id": "C1_3", "correspondingLids": ["L1_A1", "L1_A2", "L1_A3", "L1_A4", "L1_A5"], "details": {"L1_A1": "Bốn runner mạng; CPU FP32, batch 1; threads 4/1.", "L1_A2": "Kiểm receipt/config/source trước khi nạp cặp; sai → raise, dừng.", "L1_A3": "RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise.", "L1_A4": "Nạp model strict/eval; capture environment trong main, trước run_pairs.", "L1_A5": "Tạo output mới; lặp từng (name, HR, LR). Tiếp B1."}}, {"id": "C1_4", "correspondingLids": ["L1_B1"], "details": {"L1_B1": "Từ A5/A6: adapter LR→SR, gồm lượng tử cuối; chi tiết L2–L6. SR RGB uint8 4H×4W×3."}}, {"id": "C1_5", "correspondingLids": ["L1_B2", "L1_B3"], "details": {"L1_B2": "Check HR.shape == SR.shape trước crop. RGB uint8 → Y BT.601 float64 → crop4; RGB crop4 phụ.", "L1_B3": "MSE/PSNR/SSIM; range255; Gaussian11, σ1.5; population covariance. Y chính; RGB bổ sung."}}, {"id": "C1_6", "correspondingLids": ["L1_B4", "L1_C1", "L1_C2"], "details": {"L1_B4": "Sau metric: gọi lại adapter nhiều lần (C1–C4); không suy median từ SR ở B1. Xong C4 → B5.", "L1_C1": "Pipeline: warm-up3 ngoài đồng hồ; n10 mạng / n30 Bicubic NumPy của run đã khóa.", "L1_C2": "Mỗi mẫu pipeline: perf_counter_ns → adapter đầy đủ → elapsed. Có pre/post/lượng tử; loại I/O/load/metric."}}, {"id": "C1_7", "correspondingLids": ["L1_C3"], "details": {"L1_C3": "Chỉ mạng: chuẩn bị tensor một lần SAU pipeline timing, NGOÀI network timing."}}, {"id": "C1_8", "correspondingLids": ["L1_C4"], "details": {"L1_C4": "Network: inference_mode; warm-up3/n10; chỉ model(tensor). Median/IQR riêng → trở lại B5."}}, {"id": "C1_9", "correspondingLids": ["L1_B5", "L1_B6"], "details": {"L1_B5": "Lưu SR PNG từ B1 sau timing. Còn cặp → B1; hết cặp → B6.", "L1_B6": "Mean per-image; metrics/environment JSON và metrics CSV do runner ghi. Không ghi đè output."}}]</metadata>
+  <rect width="680" height="702" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L7 4 L0 8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="25" fill="#17212b" x="24" y="34" font-weight="700">C1 · Quy trình so sánh ảnh ×4</text>
+  <g id="C1_1" data-lids="L1_A1 L1_A6">
+    <rect x="24" y="58" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="84">Chọn phương pháp; dùng cùng 5 cặp ảnh có sẵn</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="108">LR: H×W×3; HR: 4H×4W×3; sai dữ liệu thì dừng</text>
+  </g>
+  <g id="C1_2" data-lids="L1_A3 L1_A6">
+    <rect x="24" y="136" width="308" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="162">Bicubic: đọc cặp RGB uint8</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="186">Ngoài đo; không nạp mạng</text>
+  </g>
+  <g id="C1_3" data-lids="L1_A1 L1_A2 L1_A3 L1_A4 L1_A5">
+    <rect x="348" y="136" width="308" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="360" y="162">Mạng: kiểm khóa → đọc cặp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="360" y="186">Nạp mạng, ghi môi trường</text>
+  </g>
+  <g id="C1_4" data-lids="L1_B1">
+    <rect x="24" y="214" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="240">Xử lý LR, tiền/hậu xử lý và làm tròn cuối</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="264">→ SR RGB uint8 4H×4W×3</text>
+  </g>
+  <g id="C1_5" data-lids="L1_B2 L1_B3">
+    <rect x="24" y="292" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="318">HR/SR cùng kích thước → Y BT.601 float64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="342">Cắt 4 pixel mỗi cạnh → MSE/PSNR/SSIM; RGB phụ</text>
+  </g>
+  <g id="C1_6" data-lids="L1_B4 L1_C1 L1_C2">
+    <rect x="24" y="370" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="396">Đo lại toàn tuyến → trung vị/IQR</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="420">Khởi động 3; đo 30 lần Bicubic / 10 lần mạng</text>
+  </g>
+  <g id="C1_7" data-lids="L1_C3">
+    <rect x="24" y="448" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="474">Chỉ mạng: chuẩn bị tensor NGOÀI vùng đo</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="498">Bicubic bỏ qua nhánh đo mạng</text>
+  </g>
+  <g id="C1_8" data-lids="L1_C4">
+    <rect x="24" y="526" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="552">Chỉ đo truyền thẳng; khởi động 3, đo 10 lần</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="576">Trung vị/IQR riêng; loại đọc/ghi và đánh giá</text>
+  </g>
+  <g id="C1_9" data-lids="L1_B5 L1_B6">
+    <rect x="24" y="604" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="630">Lưu SR PNG, hàng kết quả; còn ảnh → xử lý</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="654">Hết ảnh: trung bình các ảnh; JSON/CSV, môi trường</text>
+  </g>
+  <path d="M 178.0 122 V 133" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_1 C1_2" />
+  <path d="M 502.0 122 V 133" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_1 C1_3" />
+  <path d="M 178.0 200 V 204 H 340.0 V 211" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_2 C1_4" />
+  <path d="M 502.0 200 V 204 H 340.0 V 211" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_3 C1_4" />
+  <path d="M 340.0 278 V 289" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_4 C1_5" />
+  <path d="M 340.0 356 V 367" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_5 C1_6" />
+  <path d="M 340.0 434 V 445" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_6 C1_7" />
+  <path d="M 656 402.0 H 671 V 636.0 H 658" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_6 C1_9" />
+  <path d="M 340.0 512 V 523" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_7 C1_8" />
+  <path d="M 340.0 590 V 601" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_8 C1_9" />
+  <path d="M 24 636.0 H 9 V 246.0 H 22" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C1_9 C1_4" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="24" y="694">H,W: kích thước LR; đánh giá sau cắt 4 pixel mỗi cạnh.</text>
+</svg>

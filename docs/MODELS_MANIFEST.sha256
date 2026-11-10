@@ -1,0 +1,6 @@
+bfa68ca613c1326a59e0c34353205a254ab2b67e34df7f04e28eef567980af30  data/quarantine/srcnn/SRCNN_v1.zip
+1bab4e2d588aba9117ec19c86801f1820c34f025f1e2e253f45bb6c380aa9e18  data/checkpoints/srcnn/SRCNN/Readme.txt
+717c2c6f5196a95959f98953f84a359e56fc415eba190b5db016b25896e74862  data/checkpoints/srcnn/SRCNN/model/9-1-5(91 images)/x4.mat
+3f94150d24e5b60dab2b74f4eaf358aefdc72cbe724d86990435bf877ed452ed  data/checkpoints/srcnn/SRCNN/model/9-5-5(ImageNet)/x4.mat
+0c287733e70d1b8b8fc5885613ecbe451e5f3010bcae0307612ef5e4aa08dd5f  data/checkpoints/edsr/EDSR_Mx4_f64b16_DIV2K_official-0c287733.pth
+ff704c30ff560305e48ed1f4db895e525ab6bc81a46fafe80c0094a271c806d9  data/checkpoints/esrgan/ESRGAN_SRx4_DF2KOST_official-ff704c30.pth

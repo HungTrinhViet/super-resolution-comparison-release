@@ -1,0 +1,23 @@
+%% M9.8b: at most two short visible lines per processing box.
+%% M98_NODE: C-to-L mapping and original fine details (not rendered).
+flowchart TB
+  %% M98_NODE {"id": "C3_1", "correspondingLids": ["L3_A1", "L3_A2"], "details": {"L3_A1": "Ngoài timing: SHA256/MAT schema/dtype → reshape order=F → CPU FP32 strict → eval.", "L3_A2": "LR H×W×3 RGB uint8 → BT.601 float64 → half-away/saturate → YCbCr uint8."}}
+  C3_1["Xác minh trọng số rồi nạp mạng trước khi đo<br/>LR RGB uint8 → YCbCr uint8 theo BT.601"]
+  %% M98_NODE {"id": "C3_2", "correspondingLids": ["L3_A3"], "details": {"L3_A3": "Y uint8 → float64 /255 → bicubic×4 → cast FP32 → tensor 1×1×4H×4W."}}
+  C3_2["Y/255 float64 → bicubic ×4, biên đối xứng<br/>Chuyển FP32 → tensor 1×1×4H×4W"]
+  %% M98_NODE {"id": "C3_3", "correspondingLids": ["L3_A4", "L3_A5", "L3_A6"], "details": {"L3_A4": "Replicate pad4 → conv9×9 1→64 +bias → ReLU; FP32 1×64×4H×4W.", "L3_A5": "Replicate pad2 → conv5×5 64→32 +bias → ReLU; FP32 1×32×4H×4W.", "L3_A6": "Replicate pad2 → conv5×5 32→1 +bias, tuyến tính → Y float FP32 4H×4W. Tiếp B1."}}
+  C3_3["Tích chập 9×9 1→64/ReLU; 5×5 64→32/ReLU<br/>5×5 32→1 tuyến tính; đệm lặp biên 4/2/2"]
+  %% M98_NODE {"id": "C3_4", "correspondingLids": ["L3_B1"], "details": {"L3_B1": "Finite Y float FP32 4H×4W → cast float64 ×255 → half-away-from-zero rồi saturate[0,255] → Y uint8."}}
+  C3_4["Y hữu hạn → float64 ×255 → half-away<br/>Bão hòa [0,255] → Y uint8 4H×4W"]
+  %% M98_NODE {"id": "C3_5", "correspondingLids": ["L3_B2"], "details": {"L3_B2": "Cb rồi Cr: LR uint8 → float64 bicubic×4 (symmetric, chưa lượng tử) → round/saturate mỗi kênh."}}
+  C3_5["Cb,Cr gốc → bicubic ×4 float64, biên đối xứng<br/>Half-away rồi bão hòa → Cb,Cr uint8"]
+  %% M98_NODE {"id": "C3_6", "correspondingLids": ["L3_B3"], "details": {"L3_B3": "Stack Y,Cb,Cr uint8 4H×4W×3 → inverse BT.601 float64 → round/saturate → RGB uint8."}}
+  C3_6["Ghép YCbCr → BT.601 RGB → half-away/bão hòa<br/>SR RGB uint8 4H×4W×3"]
+  %% M98_NODE {"id": "C3_7", "correspondingLids": ["L3_B4"], "details": {"L3_B4": "Chỉ sau RGB uint8: HR/SR shape check → Y float64 → crop4 → metric L1. Y uint8 trực tiếp chỉ diagnostic."}}
+  C3_7["HR/SR cùng kích thước → Y float64<br/>Cắt 4 pixel mỗi cạnh → đánh giá Y chính, RGB phụ"]
+  C3_1 --> C3_2
+  C3_2 --> C3_3
+  C3_3 --> C3_4
+  C3_4 --> C3_5
+  C3_5 --> C3_6
+  C3_6 --> C3_7

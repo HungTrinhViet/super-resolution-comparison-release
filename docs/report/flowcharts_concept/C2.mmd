@@ -1,0 +1,23 @@
+%% M9.8b: at most two short visible lines per processing box.
+%% M98_NODE: C-to-L mapping and original fine details (not rendered).
+flowchart TB
+  %% M98_NODE {"id": "C2_1", "correspondingLids": ["L2_A1", "L2_A2"], "details": {"L2_A1": "LR RGB uint8 H×W×3 → resize(image, 4, numpy).", "L2_A2": "Validate input/scale/backend; cast float64. Gọi chiều0 trước, chiều1 sau."}}
+  C2_1["Kiểm LR RGB uint8 H×W×3; chuyển float64<br/>Phóng ×4, giữ thứ tự màu RGB"]
+  %% M98_NODE {"id": "C2_2", "correspondingLids": ["L2_A3"], "details": {"L2_A3": "axis=0: H×W×3 → 4H×W×3 float64; center=(j+0.5)/4−0.5."}}
+  C2_2["Nội suy chiều cao: H×W×3 → 4H×W×3<br/>Tâm mẫu: (j+0.5)/4−0.5"]
+  %% M98_NODE {"id": "C2_3", "correspondingLids": ["L2_A4"], "details": {"L2_A4": "a=−0.5; t=abs(d). t≤1: 1.5t³−2.5t²+1; 1<t≤2: −0.5t³+2.5t²−4t+2; ngoài:0."}}
+  C2_3["Kernel cubic a=−0.5; miền hỗ trợ |d|≤2<br/>Tính trọng số từ khoảng cách tới tâm mẫu"]
+  %% M98_NODE {"id": "C2_4", "correspondingLids": ["L2_A5"], "details": {"L2_A5": "Normalize weights theo từng output; symmetric extension có pixel biên. Sum samples float64."}}
+  C2_4["Chuẩn hóa tổng trọng số bằng 1 rồi cộng mẫu<br/>Biên đối xứng có lặp pixel biên; giữ float64"]
+  %% M98_NODE {"id": "C2_5", "correspondingLids": ["L2_A6"], "details": {"L2_A6": "axis=1: 4H×W×3 → 4H×4W×3; lặp center/kernel/normalize/symmetric như A3–A5."}}
+  C2_5["Nội suy chiều rộng với cùng kernel và biên<br/>4H×W×3 → 4H×4W×3 float64; chưa làm tròn"]
+  %% M98_NODE {"id": "C2_6", "correspondingLids": ["L2_B1", "L2_B2"], "details": {"L2_B1": "Từ A6: finite → clip[0,255] → floor(v+0.5) → uint8, CHỈ MỘT LẦN sau hai chiều.", "L2_B2": "Trả SR RGB uint8 4H×4W×3."}}
+  C2_6["Hữu hạn → giới hạn [0,255] → floor(v+0.5)<br/>Half-up một lần → SR RGB uint8 4H×4W×3"]
+  %% M98_NODE {"id": "C2_7", "correspondingLids": ["L2_B3"], "details": {"L2_B3": "HR/SR cùng shape → Y float64/crop4 và RGB crop4 → metric L1. Không crop trong resize."}}
+  C2_7["HR/SR cùng kích thước → Y float64<br/>Cắt 4 pixel mỗi cạnh → đánh giá Y chính, RGB phụ"]
+  C2_1 --> C2_2
+  C2_2 --> C2_3
+  C2_3 --> C2_4
+  C2_4 --> C2_5
+  C2_5 --> C2_6
+  C2_6 --> C2_7

@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1396" width="1520" height="1396" role="img" aria-labelledby="L2_title L2_desc">
+  <title id="L2_title">L2 · Bicubic NumPy ×4 · RGB, không học trọng số</title>
+  <desc id="L2_desc">Luồng code có module:hàm chính xác. Nhánh NumPy của baseline đã khóa; không đồng nhất với Pillow/OpenCV BICUBIC. _resize_axis dùng kernel_scale=min(scale,1); ở ×4 bằng1: không có downscale AA trong LR→SR. Downscale có antialias chỉ là xử lý degradation/đối chiếu riêng, không là bước baseline. Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang. SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp. Edges: [["L2_A1", "L2_A2", ""], ["L2_A2", "L2_A3", ""], ["L2_A3", "L2_A4", ""], ["L2_A4", "L2_A5", ""], ["L2_A5", "L2_A6", ""], ["L2_A6", "L2_B1", "tiếp"], ["L2_B1", "L2_B2", ""], ["L2_B2", "L2_B3", ""]]</desc>
+  <rect width="1520" height="1396" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="29" fill="#17212b" x="24" y="38" font-weight="700">L2 · Bicubic NumPy ×4 · RGB, không học trọng số</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="72">Đọc từ trên xuống trong từng panel; liên kết khác panel dùng ID. H,W = kích thước LR; N = 1.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="106" font-weight="700">A · Nội suy hai chiều</text>
+  <g id="L2_A1" data-refs="sr_compare.bicubic:upscale">
+    <rect x="24" y="122" width="716" height="102" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="150" font-weight="700">L2_A1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="176" font-weight="400">sr_compare.bicubic:upscale</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="202" font-weight="400">LR RGB uint8 H×W×3 → resize(image, 4, numpy).</text>
+  </g>
+  <g id="L2_A2" data-refs="sr_compare.bicubic:resize sr_compare.io:validate_rgb">
+    <rect x="24" y="282" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="310" font-weight="700">L2_A2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="336" font-weight="400">sr_compare.bicubic:resize</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="362" font-weight="400">sr_compare.io:validate_rgb</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="388" font-weight="400">Validate input/scale/backend; cast float64. Gọi chiều0 trước,</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="414" font-weight="400">chiều1 sau.</text>
+  </g>
+  <g id="L2_A3" data-refs="sr_compare.bicubic:_resize_axis">
+    <rect x="24" y="494" width="716" height="102" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="522" font-weight="700">L2_A3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="548" font-weight="400">sr_compare.bicubic:_resize_axis</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="574" font-weight="400">axis=0: H×W×3 → 4H×W×3 float64; center=(j+0.5)/4−0.5.</text>
+  </g>
+  <g id="L2_A4" data-refs="sr_compare.bicubic:cubic_kernel">
+    <rect x="24" y="654" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="682" font-weight="700">L2_A4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="708" font-weight="400">sr_compare.bicubic:cubic_kernel</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="734" font-weight="400">a=−0.5; t=abs(d). t≤1: 1.5t³−2.5t²+1; 1&lt;t≤2:</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="760" font-weight="400">−0.5t³+2.5t²−4t+2; ngoài:0.</text>
+  </g>
+  <g id="L2_A5" data-refs="sr_compare.bicubic:_resize_axis">
+    <rect x="24" y="840" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="868" font-weight="700">L2_A5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="894" font-weight="400">sr_compare.bicubic:_resize_axis</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="920" font-weight="400">Normalize weights theo từng output; symmetric extension có</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="946" font-weight="400">pixel biên. Sum samples float64.</text>
+  </g>
+  <g id="L2_A6" data-refs="sr_compare.bicubic:_resize_axis">
+    <rect x="24" y="1026" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1054" font-weight="700">L2_A6</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1080" font-weight="400">sr_compare.bicubic:_resize_axis</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1106" font-weight="400">axis=1: 4H×W×3 → 4H×4W×3; lặp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1132" font-weight="400">center/kernel/normalize/symmetric như A3–A5.</text>
+  </g>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="768" y="106" font-weight="700">B · Lượng tử rồi metric chung</text>
+  <g id="L2_B1" data-refs="sr_compare.bicubic:quantize">
+    <rect x="768" y="122" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="150" font-weight="700">L2_B1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="176" font-weight="400">sr_compare.bicubic:quantize</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="202" font-weight="400">Từ A6: finite → clip[0,255] → floor(v+0.5) → uint8, CHỈ MỘT</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="228" font-weight="400">LẦN sau hai chiều.</text>
+  </g>
+  <g id="L2_B2" data-refs="sr_compare.bicubic:upscale">
+    <rect x="768" y="308" width="716" height="102" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="336" font-weight="700">L2_B2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="362" font-weight="400">sr_compare.bicubic:upscale</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="388" font-weight="400">Trả SR RGB uint8 4H×4W×3.</text>
+  </g>
+  <g id="L2_B3" data-refs="sr_compare.metrics:evaluate">
+    <rect x="768" y="468" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="496" font-weight="700">L2_B3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="522" font-weight="400">sr_compare.metrics:evaluate</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="548" font-weight="400">HR/SR cùng shape → Y float64/crop4 và RGB crop4 → metric L1.</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="574" font-weight="400">Không crop trong resize.</text>
+  </g>
+  <path d="M 715 224 V 275" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_A1 L2_A2" />
+  <path d="M 715 436 V 487" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_A2 L2_A3" />
+  <path d="M 715 596 V 647" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_A3 L2_A4" />
+  <path d="M 715 782 V 833" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_A4 L2_A5" />
+  <path d="M 715 968 V 1019" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_A5 L2_A6" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="33" y="1179" data-edge="L2_A6 L2_B1">→ L2_B1 · tiếp</text>
+  <path d="M 1459 250 V 301" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_B1 L2_B2" />
+  <path d="M 1459 410 V 461" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L2_B2 L2_B3" />
+  <line x1="24" x2="1496" y1="1206" y2="1206" stroke="#667085" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1239">Nhánh NumPy của baseline đã khóa; không đồng nhất với Pillow/OpenCV BICUBIC.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1265">_resize_axis dùng kernel_scale=min(scale,1); ở ×4 bằng1: không có downscale AA trong LR→SR.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1291">Downscale có antialias chỉ là xử lý degradation/đối chiếu riêng, không là bước baseline.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1317">Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1343">SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp.</text>
+</svg>

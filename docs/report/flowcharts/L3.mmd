@@ -1,0 +1,39 @@
+%% Documentation-only; generated with Python stdlib, not Mermaid CLI.
+%% Module names resolve to src/sr_compare/*.py or scripts/*.py.
+flowchart TB
+  subgraph L3_P0["A · Nạp và forward Y phóng trước"]
+    direction TB
+    %% M9_NODE {"id": "L3_A1", "refs": ["sr_compare.srcnn:load_srcnn", "sr_compare.srcnn:convert_weights"], "text": "Ngoài timing: SHA256/MAT schema/dtype → reshape order=F → CPU FP32 strict → eval.", "shape": "process"}
+    L3_A1["L3_A1<br/>sr_compare.srcnn:load_srcnn<br/>sr_compare.srcnn:convert_weights<br/>Ngoài timing: SHA256/MAT schema/dtype → reshape order=F → CPU<br/>FP32 strict → eval."]
+    %% M9_NODE {"id": "L3_A2", "refs": ["sr_compare.srcnn:super_resolve", "sr_compare.matlab_color:rgb2ycbcr_uint8"], "text": "LR H×W×3 RGB uint8 → BT.601 float64 → half-away/saturate → YCbCr uint8.", "shape": "process"}
+    L3_A2["L3_A2<br/>sr_compare.srcnn:super_resolve<br/>sr_compare.matlab_color:rgb2ycbcr_uint8<br/>LR H×W×3 RGB uint8 → BT.601 float64 → half-away/saturate →<br/>YCbCr uint8."]
+    %% M9_NODE {"id": "L3_A3", "refs": ["sr_compare.matlab_resize:imresize_bicubic_float", "sr_compare.srcnn:super_resolve"], "text": "Y uint8 → float64 /255 → bicubic×4 → cast FP32 → tensor 1×1×4H×4W.", "shape": "process"}
+    L3_A3["L3_A3<br/>sr_compare.matlab_resize:imresize_bicubic_float<br/>sr_compare.srcnn:super_resolve<br/>Y uint8 → float64 /255 → bicubic×4 → cast FP32 → tensor<br/>1×1×4H×4W."]
+    %% M9_NODE {"id": "L3_A4", "refs": ["sr_compare.srcnn:Srcnn.forward"], "text": "Replicate pad4 → conv9×9 1→64 +bias → ReLU; FP32 1×64×4H×4W.", "shape": "process"}
+    L3_A4["L3_A4<br/>sr_compare.srcnn:Srcnn.forward<br/>Replicate pad4 → conv9×9 1→64 +bias → ReLU; FP32 1×64×4H×4W."]
+    %% M9_NODE {"id": "L3_A5", "refs": ["sr_compare.srcnn:Srcnn.forward"], "text": "Replicate pad2 → conv5×5 64→32 +bias → ReLU; FP32 1×32×4H×4W.", "shape": "process"}
+    L3_A5["L3_A5<br/>sr_compare.srcnn:Srcnn.forward<br/>Replicate pad2 → conv5×5 64→32 +bias → ReLU; FP32 1×32×4H×4W."]
+    %% M9_NODE {"id": "L3_A6", "refs": ["sr_compare.srcnn:Srcnn.forward"], "text": "Replicate pad2 → conv5×5 32→1 +bias, tuyến tính → Y float FP32 4H×4W. Tiếp B1.", "shape": "process"}
+    L3_A6["L3_A6<br/>sr_compare.srcnn:Srcnn.forward<br/>Replicate pad2 → conv5×5 32→1 +bias, tuyến tính → Y float<br/>FP32 4H×4W. Tiếp B1."]
+  end
+  subgraph L3_P1["B · Ghép RGB rồi đánh giá"]
+    direction TB
+    %% M9_NODE {"id": "L3_B1", "refs": ["sr_compare.srcnn:super_resolve", "sr_compare.matlab_color:matlab_uint8_round"], "text": "Finite Y float FP32 4H×4W → cast float64 ×255 → half-away-from-zero rồi saturate[0,255] → Y uint8.", "shape": "process"}
+    L3_B1["L3_B1<br/>sr_compare.srcnn:super_resolve<br/>sr_compare.matlab_color:matlab_uint8_round<br/>Finite Y float FP32 4H×4W → cast float64 ×255 →<br/>half-away-from-zero rồi saturate[0,255] → Y uint8."]
+    %% M9_NODE {"id": "L3_B2", "refs": ["sr_compare.matlab_resize:imresize_bicubic_float", "sr_compare.matlab_color:matlab_uint8_round"], "text": "Cb rồi Cr: LR uint8 → float64 bicubic×4 (symmetric, chưa lượng tử) → round/saturate mỗi kênh.", "shape": "process"}
+    L3_B2["L3_B2<br/>sr_compare.matlab_resize:imresize_bicubic_float<br/>sr_compare.matlab_color:matlab_uint8_round<br/>Cb rồi Cr: LR uint8 → float64 bicubic×4 (symmetric, chưa<br/>lượng tử) → round/saturate mỗi kênh."]
+    %% M9_NODE {"id": "L3_B3", "refs": ["sr_compare.matlab_color:ycbcr2rgb_uint8", "sr_compare.matlab_color:ycbcr2rgb_float", "sr_compare.matlab_color:matlab_uint8_round"], "text": "Stack Y,Cb,Cr uint8 4H×4W×3 → inverse BT.601 float64 → round/saturate → RGB uint8.", "shape": "process"}
+    L3_B3["L3_B3<br/>sr_compare.matlab_color:ycbcr2rgb_uint8<br/>sr_compare.matlab_color:ycbcr2rgb_float<br/>sr_compare.matlab_color:matlab_uint8_round<br/>Stack Y,Cb,Cr uint8 4H×4W×3 → inverse BT.601 float64 →<br/>round/saturate → RGB uint8."]
+    %% M9_NODE {"id": "L3_B4", "refs": ["sr_compare.metrics:evaluate"], "text": "Chỉ sau RGB uint8: HR/SR shape check → Y float64 → crop4 → metric L1. Y uint8 trực tiếp chỉ diagnostic.", "shape": "process"}
+    L3_B4["L3_B4<br/>sr_compare.metrics:evaluate<br/>Chỉ sau RGB uint8: HR/SR shape check → Y float64 → crop4 →<br/>metric L1. Y uint8 trực tiếp chỉ diagnostic."]
+  end
+  L3_A1 --> L3_A2
+  L3_A2 --> L3_A3
+  L3_A3 --> L3_A4
+  L3_A4 --> L3_A5
+  L3_A5 --> L3_A6
+  L3_A6 -->|"tiếp"| L3_B1
+  L3_B1 --> L3_B2
+  L3_B2 --> L3_B3
+  L3_B3 --> L3_B4
+  L3_NOTES["Giới hạn và nguồn<br/>K1: LR SelfExSR RGB uint8 rồi mới lấy Y; demo tạo LR từ HR Y float: không tương đương thứ tự màu/giảm mẫu.<br/>K2: Công cụ tạo LR SelfExSR UNVERIFIED. K3: Bicubic CbCr/ghép RGB là quy ước thêm; demo chỉ xử lý Y.<br/>K4: Y uint8 trực tiếp/crop4 chỉ diagnostic; chính là Y float từ RGB đã lượng tử, không trộn bảng.<br/>K5: Preprocessing float64, mạng FP32 khác số học demo. K6: Chưa có MATLAB runtime oracle.<br/>Nguồn khác biệt: docs/M3_SRCNN_RESULTS.md, mục K1–K6. inference_mode; finite sai → raise.<br/>Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.<br/>SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực<br/>tiếp."]

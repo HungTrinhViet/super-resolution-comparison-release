@@ -1,0 +1,32 @@
+%% M9.8b: at most two short visible lines per processing box.
+%% M98_NODE: C-to-L mapping and original fine details (not rendered).
+flowchart TB
+  %% M98_NODE {"id": "C1_1", "correspondingLids": ["L1_A1", "L1_A6"], "details": {"L1_A1": "Bốn runner mạng; CPU FP32, batch 1; threads 4/1.", "L1_A6": "Nhánh Bicubic Set5: load_pair → vòng lặp B1; không verify_lock/nạp model."}}
+  C1_1["Chọn phương pháp; dùng cùng 5 cặp ảnh có sẵn<br/>LR: H×W×3; HR: 4H×4W×3; sai dữ liệu thì dừng"]
+  %% M98_NODE {"id": "C1_2", "correspondingLids": ["L1_A3", "L1_A6"], "details": {"L1_A3": "RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise.", "L1_A6": "Nhánh Bicubic Set5: load_pair → vòng lặp B1; không verify_lock/nạp model."}}
+  C1_2["Bicubic: đọc cặp RGB uint8<br/>Ngoài đo; không nạp mạng"]
+  %% M98_NODE {"id": "C1_3", "correspondingLids": ["L1_A1", "L1_A2", "L1_A3", "L1_A4", "L1_A5"], "details": {"L1_A1": "Bốn runner mạng; CPU FP32, batch 1; threads 4/1.", "L1_A2": "Kiểm receipt/config/source trước khi nạp cặp; sai → raise, dừng.", "L1_A3": "RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise.", "L1_A4": "Nạp model strict/eval; capture environment trong main, trước run_pairs.", "L1_A5": "Tạo output mới; lặp từng (name, HR, LR). Tiếp B1."}}
+  C1_3["Mạng: kiểm khóa → đọc cặp<br/>Nạp mạng, ghi môi trường"]
+  %% M98_NODE {"id": "C1_4", "correspondingLids": ["L1_B1"], "details": {"L1_B1": "Từ A5/A6: adapter LR→SR, gồm lượng tử cuối; chi tiết L2–L6. SR RGB uint8 4H×4W×3."}}
+  C1_4["Xử lý LR, tiền/hậu xử lý và làm tròn cuối<br/>→ SR RGB uint8 4H×4W×3"]
+  %% M98_NODE {"id": "C1_5", "correspondingLids": ["L1_B2", "L1_B3"], "details": {"L1_B2": "Check HR.shape == SR.shape trước crop. RGB uint8 → Y BT.601 float64 → crop4; RGB crop4 phụ.", "L1_B3": "MSE/PSNR/SSIM; range255; Gaussian11, σ1.5; population covariance. Y chính; RGB bổ sung."}}
+  C1_5["HR/SR cùng kích thước → Y BT.601 float64<br/>Cắt 4 pixel mỗi cạnh → MSE/PSNR/SSIM; RGB phụ"]
+  %% M98_NODE {"id": "C1_6", "correspondingLids": ["L1_B4", "L1_C1", "L1_C2"], "details": {"L1_B4": "Sau metric: gọi lại adapter nhiều lần (C1–C4); không suy median từ SR ở B1. Xong C4 → B5.", "L1_C1": "Pipeline: warm-up3 ngoài đồng hồ; n10 mạng / n30 Bicubic NumPy của run đã khóa.", "L1_C2": "Mỗi mẫu pipeline: perf_counter_ns → adapter đầy đủ → elapsed. Có pre/post/lượng tử; loại I/O/load/metric."}}
+  C1_6["Đo lại toàn tuyến → trung vị/IQR<br/>Khởi động 3; đo 30 lần Bicubic / 10 lần mạng"]
+  %% M98_NODE {"id": "C1_7", "correspondingLids": ["L1_C3"], "details": {"L1_C3": "Chỉ mạng: chuẩn bị tensor một lần SAU pipeline timing, NGOÀI network timing."}}
+  C1_7["Chỉ mạng: chuẩn bị tensor NGOÀI vùng đo<br/>Bicubic bỏ qua nhánh đo mạng"]
+  %% M98_NODE {"id": "C1_8", "correspondingLids": ["L1_C4"], "details": {"L1_C4": "Network: inference_mode; warm-up3/n10; chỉ model(tensor). Median/IQR riêng → trở lại B5."}}
+  C1_8["Chỉ đo truyền thẳng; khởi động 3, đo 10 lần<br/>Trung vị/IQR riêng; loại đọc/ghi và đánh giá"]
+  %% M98_NODE {"id": "C1_9", "correspondingLids": ["L1_B5", "L1_B6"], "details": {"L1_B5": "Lưu SR PNG từ B1 sau timing. Còn cặp → B1; hết cặp → B6.", "L1_B6": "Mean per-image; metrics/environment JSON và metrics CSV do runner ghi. Không ghi đè output."}}
+  C1_9["Lưu SR PNG, hàng kết quả; còn ảnh → xử lý<br/>Hết ảnh: trung bình các ảnh; JSON/CSV, môi trường"]
+  C1_1 -->|"Bicubic"| C1_2
+  C1_1 -->|"mạng"| C1_3
+  C1_2 --> C1_4
+  C1_3 --> C1_4
+  C1_4 --> C1_5
+  C1_5 --> C1_6
+  C1_6 -->|"mạng"| C1_7
+  C1_6 -->|"Bicubic"| C1_9
+  C1_7 --> C1_8
+  C1_8 --> C1_9
+  C1_9 -->|"còn ảnh"| C1_4

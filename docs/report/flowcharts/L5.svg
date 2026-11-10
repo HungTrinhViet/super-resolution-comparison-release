@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1340" width="1520" height="1340" role="img" aria-labelledby="L5_title L5_desc">
+  <title id="L5_title">L5 · EDSR-baseline ×4 · 16 residual blocks / 64 features</title>
+  <desc id="L5_desc">Luồng code có module:hàm chính xác. KE1: Training DIV2K bicubic mô tả MATLAB; công cụ LR SelfExSR UNVERIFIED, không suy degradation giống nhau. KE2: Checkpoint BasicSR chưa so tensor với bản SNU gốc; conversion chain UNVERIFIED. KE3: Half-to-even khác half-up/half-away. KE4: Dùng metric M1 chung thay calc_psnr riêng của nguồn. KE5: Training overlap DIV2K/Set5 chưa audit. Nguồn: docs/M5_EDSR_RESULTS.md, mục KE1–KE5. Đây là baseline16/64, res_scale1; không phải EDSR full32/256 res_scale0.1. Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang. SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp. Edges: [["L5_A1", "L5_A2", ""], ["L5_A2", "L5_A3", ""], ["L5_A3", "L5_A4", ""], ["L5_A4", "L5_A5", ""], ["L5_A5", "L5_B1", "tiếp"], ["L5_B1", "L5_B2", ""], ["L5_B2", "L5_B3", ""], ["L5_B3", "L5_B4", ""], ["L5_B4", "L5_B5", ""]]</desc>
+  <rect width="1520" height="1340" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="29" fill="#17212b" x="24" y="38" font-weight="700">L5 · EDSR-baseline ×4 · 16 residual blocks / 64 features</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="72">Đọc từ trên xuống trong từng panel; liên kết khác panel dùng ID. H,W = kích thước LR; N = 1.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="106" font-weight="700">A · RGB LR và thân residual</text>
+  <g id="L5_A1" data-refs="sr_compare.edsr:load_edsr">
+    <rect x="24" y="122" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="150" font-weight="700">L5_A1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="176" font-weight="400">sr_compare.edsr:load_edsr</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="202" font-weight="400">Ngoài timing: SHA256 → params/74 entries FP32 finite →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="228" font-weight="400">strict/1,517,571 parameters → eval.</text>
+  </g>
+  <g id="L5_A2" data-refs="sr_compare.edsr:super_resolve sr_compare.edsr:prepare_input">
+    <rect x="24" y="308" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="336" font-weight="700">L5_A2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="362" font-weight="400">sr_compare.edsr:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="388" font-weight="400">sr_compare.edsr:prepare_input</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="414" font-weight="400">RGB uint8 H×W×3 → RGB FP32 [0,1], NCHW 1×3×H×W;</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="440" font-weight="400">inference_mode.</text>
+  </g>
+  <g id="L5_A3" data-refs="sr_compare.edsr:Edsr.forward sr_compare.edsr:subtract_mean">
+    <rect x="24" y="520" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="548" font-weight="700">L5_A3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="574" font-weight="400">sr_compare.edsr:Edsr.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="600" font-weight="400">sr_compare.edsr:subtract_mean</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="626" font-weight="400">(x−RGBmean)×255; mean=(.4488,.4371,.4040). conv_first3×3 3→64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="652" font-weight="400">zero-pad1 → head 1×64×H×W.</text>
+  </g>
+  <g id="L5_A4" data-refs="sr_compare.edsr:ResidualBlock.forward">
+    <rect x="24" y="732" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="760" font-weight="700">L5_A4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="786" font-weight="400">sr_compare.edsr:ResidualBlock.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="812" font-weight="400">16 lần: x + conv3(ReLU(conv3(x)))×1; cả hai conv64→64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="838" font-weight="400">zero-pad1; không BN; giữ H×W.</text>
+  </g>
+  <g id="L5_A5" data-refs="sr_compare.edsr:Edsr.forward">
+    <rect x="24" y="918" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="946" font-weight="700">L5_A5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="972" font-weight="400">sr_compare.edsr:Edsr.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="998" font-weight="400">conv_after_body3×3 64→64 zero-pad1; cộng head (global skip).</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1024" font-weight="400">FP32 1×64×H×W. Tiếp B1.</text>
+  </g>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="768" y="106" font-weight="700">B · Hai shuffle và lượng tử RGB</text>
+  <g id="L5_B1" data-refs="sr_compare.edsr:Edsr.forward">
+    <rect x="768" y="122" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="150" font-weight="700">L5_B1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="176" font-weight="400">sr_compare.edsr:Edsr.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="202" font-weight="400">conv3 64→256 zero-pad1 → PixelShuffle2: 1×64×2H×2W; lặp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="228" font-weight="400">conv3/shuffle2 → 1×64×4H×4W.</text>
+  </g>
+  <g id="L5_B2" data-refs="sr_compare.edsr:Edsr.forward sr_compare.edsr:add_mean">
+    <rect x="768" y="308" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="336" font-weight="700">L5_B2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="362" font-weight="400">sr_compare.edsr:Edsr.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="388" font-weight="400">sr_compare.edsr:add_mean</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="414" font-weight="400">conv_last3×3 64→3 zero-pad1, tuyến tính; add_mean:</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="440" font-weight="400">x/255+RGBmean → RGB FP32 1×3×4H×4W.</text>
+  </g>
+  <g id="L5_B3" data-refs="sr_compare.edsr:super_resolve">
+    <rect x="768" y="520" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="548" font-weight="700">L5_B3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="574" font-weight="400">sr_compare.edsr:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="600" font-weight="400">Lấy batch0 ×255 → CHW intensities FP32; finite check; đếm</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="626" font-weight="400">exact-half trước lượng tử.</text>
+  </g>
+  <g id="L5_B4" data-refs="sr_compare.edsr:tensor_to_rgb sr_compare.edsr:quantize_values">
+    <rect x="768" y="706" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="734" font-weight="700">L5_B4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="760" font-weight="400">sr_compare.edsr:tensor_to_rgb</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="786" font-weight="400">sr_compare.edsr:quantize_values</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="812" font-weight="400">Finite → clamp[0,255] → torch.round half-to-even → uint8;</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="838" font-weight="400">permute/copy → RGB 4H×4W×3.</text>
+  </g>
+  <g id="L5_B5" data-refs="sr_compare.metrics:evaluate">
+    <rect x="768" y="918" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="946" font-weight="700">L5_B5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="972" font-weight="400">sr_compare.metrics:evaluate</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="998" font-weight="400">RGB uint8 → shape check → Y float64/crop4; RGB crop4 phụ.</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="1024" font-weight="400">Metric chung L1.</text>
+  </g>
+  <path d="M 715 250 V 301" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_A1 L5_A2" />
+  <path d="M 715 462 V 513" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_A2 L5_A3" />
+  <path d="M 715 674 V 725" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_A3 L5_A4" />
+  <path d="M 715 860 V 911" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_A4 L5_A5" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="33" y="1071" data-edge="L5_A5 L5_B1">→ L5_B1 · tiếp</text>
+  <path d="M 1459 250 V 301" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_B1 L5_B2" />
+  <path d="M 1459 462 V 513" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_B2 L5_B3" />
+  <path d="M 1459 648 V 699" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_B3 L5_B4" />
+  <path d="M 1459 860 V 911" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L5_B4 L5_B5" />
+  <line x1="24" x2="1496" y1="1098" y2="1098" stroke="#667085" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1131">KE1: Training DIV2K bicubic mô tả MATLAB; công cụ LR SelfExSR UNVERIFIED, không suy degradation giống nhau.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1157">KE2: Checkpoint BasicSR chưa so tensor với bản SNU gốc; conversion chain UNVERIFIED.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1183">KE3: Half-to-even khác half-up/half-away. KE4: Dùng metric M1 chung thay calc_psnr riêng của nguồn.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1209">KE5: Training overlap DIV2K/Set5 chưa audit. Nguồn: docs/M5_EDSR_RESULTS.md, mục KE1–KE5.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1235">Đây là baseline16/64, res_scale1; không phải EDSR full32/256 res_scale0.1.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1261">Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1287">SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp.</text>
+</svg>

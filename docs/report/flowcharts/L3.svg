@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1500" width="1520" height="1500" role="img" aria-labelledby="L3_title L3_desc">
+  <title id="L3_title">L3 · SRCNN 9-5-5 ImageNet ×4 · adapter RGB</title>
+  <desc id="L3_desc">Luồng code có module:hàm chính xác. K1: LR SelfExSR RGB uint8 rồi mới lấy Y; demo tạo LR từ HR Y float: không tương đương thứ tự màu/giảm mẫu. K2: Công cụ tạo LR SelfExSR UNVERIFIED. K3: Bicubic CbCr/ghép RGB là quy ước thêm; demo chỉ xử lý Y. K4: Y uint8 trực tiếp/crop4 chỉ diagnostic; chính là Y float từ RGB đã lượng tử, không trộn bảng. K5: Preprocessing float64, mạng FP32 khác số học demo. K6: Chưa có MATLAB runtime oracle. Nguồn khác biệt: docs/M3_SRCNN_RESULTS.md, mục K1–K6. inference_mode; finite sai → raise. Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang. SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp. Edges: [["L3_A1", "L3_A2", ""], ["L3_A2", "L3_A3", ""], ["L3_A3", "L3_A4", ""], ["L3_A4", "L3_A5", ""], ["L3_A5", "L3_A6", ""], ["L3_A6", "L3_B1", "tiếp"], ["L3_B1", "L3_B2", ""], ["L3_B2", "L3_B3", ""], ["L3_B3", "L3_B4", ""]]</desc>
+  <rect width="1520" height="1500" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="29" fill="#17212b" x="24" y="38" font-weight="700">L3 · SRCNN 9-5-5 ImageNet ×4 · adapter RGB</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="72">Đọc từ trên xuống trong từng panel; liên kết khác panel dùng ID. H,W = kích thước LR; N = 1.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="106" font-weight="700">A · Nạp và forward Y phóng trước</text>
+  <g id="L3_A1" data-refs="sr_compare.srcnn:load_srcnn sr_compare.srcnn:convert_weights">
+    <rect x="24" y="122" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="150" font-weight="700">L3_A1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="176" font-weight="400">sr_compare.srcnn:load_srcnn</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="202" font-weight="400">sr_compare.srcnn:convert_weights</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="228" font-weight="400">Ngoài timing: SHA256/MAT schema/dtype → reshape order=F → CPU</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="254" font-weight="400">FP32 strict → eval.</text>
+  </g>
+  <g id="L3_A2" data-refs="sr_compare.srcnn:super_resolve sr_compare.matlab_color:rgb2ycbcr_uint8">
+    <rect x="24" y="334" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="362" font-weight="700">L3_A2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="388" font-weight="400">sr_compare.srcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="414" font-weight="400">sr_compare.matlab_color:rgb2ycbcr_uint8</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="440" font-weight="400">LR H×W×3 RGB uint8 → BT.601 float64 → half-away/saturate →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="466" font-weight="400">YCbCr uint8.</text>
+  </g>
+  <g id="L3_A3" data-refs="sr_compare.matlab_resize:imresize_bicubic_float sr_compare.srcnn:super_resolve">
+    <rect x="24" y="546" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="574" font-weight="700">L3_A3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="600" font-weight="400">sr_compare.matlab_resize:imresize_bicubic_float</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="626" font-weight="400">sr_compare.srcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="652" font-weight="400">Y uint8 → float64 /255 → bicubic×4 → cast FP32 → tensor</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="678" font-weight="400">1×1×4H×4W.</text>
+  </g>
+  <g id="L3_A4" data-refs="sr_compare.srcnn:Srcnn.forward">
+    <rect x="24" y="758" width="716" height="102" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="786" font-weight="700">L3_A4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="812" font-weight="400">sr_compare.srcnn:Srcnn.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="838" font-weight="400">Replicate pad4 → conv9×9 1→64 +bias → ReLU; FP32 1×64×4H×4W.</text>
+  </g>
+  <g id="L3_A5" data-refs="sr_compare.srcnn:Srcnn.forward">
+    <rect x="24" y="918" width="716" height="102" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="946" font-weight="700">L3_A5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="972" font-weight="400">sr_compare.srcnn:Srcnn.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="998" font-weight="400">Replicate pad2 → conv5×5 64→32 +bias → ReLU; FP32 1×32×4H×4W.</text>
+  </g>
+  <g id="L3_A6" data-refs="sr_compare.srcnn:Srcnn.forward">
+    <rect x="24" y="1078" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1106" font-weight="700">L3_A6</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1132" font-weight="400">sr_compare.srcnn:Srcnn.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1158" font-weight="400">Replicate pad2 → conv5×5 32→1 +bias, tuyến tính → Y float</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1184" font-weight="400">FP32 4H×4W. Tiếp B1.</text>
+  </g>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="768" y="106" font-weight="700">B · Ghép RGB rồi đánh giá</text>
+  <g id="L3_B1" data-refs="sr_compare.srcnn:super_resolve sr_compare.matlab_color:matlab_uint8_round">
+    <rect x="768" y="122" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="150" font-weight="700">L3_B1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="176" font-weight="400">sr_compare.srcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="202" font-weight="400">sr_compare.matlab_color:matlab_uint8_round</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="228" font-weight="400">Finite Y float FP32 4H×4W → cast float64 ×255 →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="254" font-weight="400">half-away-from-zero rồi saturate[0,255] → Y uint8.</text>
+  </g>
+  <g id="L3_B2" data-refs="sr_compare.matlab_resize:imresize_bicubic_float sr_compare.matlab_color:matlab_uint8_round">
+    <rect x="768" y="334" width="716" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="362" font-weight="700">L3_B2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="388" font-weight="400">sr_compare.matlab_resize:imresize_bicubic_float</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="414" font-weight="400">sr_compare.matlab_color:matlab_uint8_round</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="440" font-weight="400">Cb rồi Cr: LR uint8 → float64 bicubic×4 (symmetric, chưa</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="466" font-weight="400">lượng tử) → round/saturate mỗi kênh.</text>
+  </g>
+  <g id="L3_B3" data-refs="sr_compare.matlab_color:ycbcr2rgb_uint8 sr_compare.matlab_color:ycbcr2rgb_float sr_compare.matlab_color:matlab_uint8_round">
+    <rect x="768" y="546" width="716" height="180" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="574" font-weight="700">L3_B3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="600" font-weight="400">sr_compare.matlab_color:ycbcr2rgb_uint8</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="626" font-weight="400">sr_compare.matlab_color:ycbcr2rgb_float</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="652" font-weight="400">sr_compare.matlab_color:matlab_uint8_round</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="678" font-weight="400">Stack Y,Cb,Cr uint8 4H×4W×3 → inverse BT.601 float64 →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="704" font-weight="400">round/saturate → RGB uint8.</text>
+  </g>
+  <g id="L3_B4" data-refs="sr_compare.metrics:evaluate">
+    <rect x="768" y="784" width="716" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="812" font-weight="700">L3_B4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="838" font-weight="400">sr_compare.metrics:evaluate</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="864" font-weight="400">Chỉ sau RGB uint8: HR/SR shape check → Y float64 → crop4 →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="781" y="890" font-weight="400">metric L1. Y uint8 trực tiếp chỉ diagnostic.</text>
+  </g>
+  <path d="M 715 276 V 327" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_A1 L3_A2" />
+  <path d="M 715 488 V 539" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_A2 L3_A3" />
+  <path d="M 715 700 V 751" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_A3 L3_A4" />
+  <path d="M 715 860 V 911" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_A4 L3_A5" />
+  <path d="M 715 1020 V 1071" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_A5 L3_A6" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="33" y="1231" data-edge="L3_A6 L3_B1">→ L3_B1 · tiếp</text>
+  <path d="M 1459 276 V 327" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_B1 L3_B2" />
+  <path d="M 1459 488 V 539" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_B2 L3_B3" />
+  <path d="M 1459 726 V 777" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L3_B3 L3_B4" />
+  <line x1="24" x2="1496" y1="1258" y2="1258" stroke="#667085" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1291">K1: LR SelfExSR RGB uint8 rồi mới lấy Y; demo tạo LR từ HR Y float: không tương đương thứ tự màu/giảm mẫu.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1317">K2: Công cụ tạo LR SelfExSR UNVERIFIED. K3: Bicubic CbCr/ghép RGB là quy ước thêm; demo chỉ xử lý Y.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1343">K4: Y uint8 trực tiếp/crop4 chỉ diagnostic; chính là Y float từ RGB đã lượng tử, không trộn bảng.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1369">K5: Preprocessing float64, mạng FP32 khác số học demo. K6: Chưa có MATLAB runtime oracle.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1395">Nguồn khác biệt: docs/M3_SRCNN_RESULTS.md, mục K1–K6. inference_mode; finite sai → raise.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1421">Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1447">SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp.</text>
+</svg>

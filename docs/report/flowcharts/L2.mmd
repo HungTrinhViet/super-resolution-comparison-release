@@ -1,0 +1,36 @@
+%% Documentation-only; generated with Python stdlib, not Mermaid CLI.
+%% Module names resolve to src/sr_compare/*.py or scripts/*.py.
+flowchart TB
+  subgraph L2_P0["A · Nội suy hai chiều"]
+    direction TB
+    %% M9_NODE {"id": "L2_A1", "refs": ["sr_compare.bicubic:upscale"], "text": "LR RGB uint8 H×W×3 → resize(image, 4, numpy).", "shape": "process"}
+    L2_A1["L2_A1<br/>sr_compare.bicubic:upscale<br/>LR RGB uint8 H×W×3 → resize(image, 4, numpy)."]
+    %% M9_NODE {"id": "L2_A2", "refs": ["sr_compare.bicubic:resize", "sr_compare.io:validate_rgb"], "text": "Validate input/scale/backend; cast float64. Gọi chiều0 trước, chiều1 sau.", "shape": "process"}
+    L2_A2["L2_A2<br/>sr_compare.bicubic:resize<br/>sr_compare.io:validate_rgb<br/>Validate input/scale/backend; cast float64. Gọi chiều0 trước,<br/>chiều1 sau."]
+    %% M9_NODE {"id": "L2_A3", "refs": ["sr_compare.bicubic:_resize_axis"], "text": "axis=0: H×W×3 → 4H×W×3 float64; center=(j+0.5)/4−0.5.", "shape": "process"}
+    L2_A3["L2_A3<br/>sr_compare.bicubic:_resize_axis<br/>axis=0: H×W×3 → 4H×W×3 float64; center=(j+0.5)/4−0.5."]
+    %% M9_NODE {"id": "L2_A4", "refs": ["sr_compare.bicubic:cubic_kernel"], "text": "a=−0.5; t=abs(d). t≤1: 1.5t³−2.5t²+1; 1<t≤2: −0.5t³+2.5t²−4t+2; ngoài:0.", "shape": "process"}
+    L2_A4["L2_A4<br/>sr_compare.bicubic:cubic_kernel<br/>a=−0.5; t=abs(d). t≤1: 1.5t³−2.5t²+1; 1<t≤2:<br/>−0.5t³+2.5t²−4t+2; ngoài:0."]
+    %% M9_NODE {"id": "L2_A5", "refs": ["sr_compare.bicubic:_resize_axis"], "text": "Normalize weights theo từng output; symmetric extension có pixel biên. Sum samples float64.", "shape": "process"}
+    L2_A5["L2_A5<br/>sr_compare.bicubic:_resize_axis<br/>Normalize weights theo từng output; symmetric extension có<br/>pixel biên. Sum samples float64."]
+    %% M9_NODE {"id": "L2_A6", "refs": ["sr_compare.bicubic:_resize_axis"], "text": "axis=1: 4H×W×3 → 4H×4W×3; lặp center/kernel/normalize/symmetric như A3–A5.", "shape": "process"}
+    L2_A6["L2_A6<br/>sr_compare.bicubic:_resize_axis<br/>axis=1: 4H×W×3 → 4H×4W×3; lặp<br/>center/kernel/normalize/symmetric như A3–A5."]
+  end
+  subgraph L2_P1["B · Lượng tử rồi metric chung"]
+    direction TB
+    %% M9_NODE {"id": "L2_B1", "refs": ["sr_compare.bicubic:quantize"], "text": "Từ A6: finite → clip[0,255] → floor(v+0.5) → uint8, CHỈ MỘT LẦN sau hai chiều.", "shape": "process"}
+    L2_B1["L2_B1<br/>sr_compare.bicubic:quantize<br/>Từ A6: finite → clip[0,255] → floor(v+0.5) → uint8, CHỈ MỘT<br/>LẦN sau hai chiều."]
+    %% M9_NODE {"id": "L2_B2", "refs": ["sr_compare.bicubic:upscale"], "text": "Trả SR RGB uint8 4H×4W×3.", "shape": "process"}
+    L2_B2["L2_B2<br/>sr_compare.bicubic:upscale<br/>Trả SR RGB uint8 4H×4W×3."]
+    %% M9_NODE {"id": "L2_B3", "refs": ["sr_compare.metrics:evaluate"], "text": "HR/SR cùng shape → Y float64/crop4 và RGB crop4 → metric L1. Không crop trong resize.", "shape": "process"}
+    L2_B3["L2_B3<br/>sr_compare.metrics:evaluate<br/>HR/SR cùng shape → Y float64/crop4 và RGB crop4 → metric L1.<br/>Không crop trong resize."]
+  end
+  L2_A1 --> L2_A2
+  L2_A2 --> L2_A3
+  L2_A3 --> L2_A4
+  L2_A4 --> L2_A5
+  L2_A5 --> L2_A6
+  L2_A6 -->|"tiếp"| L2_B1
+  L2_B1 --> L2_B2
+  L2_B2 --> L2_B3
+  L2_NOTES["Giới hạn và nguồn<br/>Nhánh NumPy của baseline đã khóa; không đồng nhất với Pillow/OpenCV BICUBIC.<br/>_resize_axis dùng kernel_scale=min(scale,1); ở ×4 bằng1: không có downscale AA trong LR→SR.<br/>Downscale có antialias chỉ là xử lý degradation/đối chiếu riêng, không là bước baseline.<br/>Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.<br/>SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực<br/>tiếp."]

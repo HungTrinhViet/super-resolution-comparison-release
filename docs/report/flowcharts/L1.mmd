@@ -1,0 +1,62 @@
+%% Documentation-only; generated with Python stdlib, not Mermaid CLI.
+%% Module names resolve to src/sr_compare/*.py or scripts/*.py.
+flowchart TB
+  subgraph L1_P0["A · Chuẩn bị ngoài timing"]
+    direction TB
+    %% M9_NODE {"id": "L1_A1", "refs": ["scripts.run_srcnn:main", "scripts.run_fsrcnn:main", "scripts.run_edsr:main", "scripts.run_esrgan:main"], "text": "Bốn runner mạng; CPU FP32, batch 1; threads 4/1.", "shape": "process"}
+    L1_A1["L1_A1<br/>scripts.run_srcnn:main<br/>scripts.run_fsrcnn:main<br/>scripts.run_edsr:main<br/>scripts.run_esrgan:main<br/>Bốn runner mạng; CPU FP32, batch 1; threads 4/1."]
+    %% M9_NODE {"id": "L1_A2", "refs": ["scripts.run_srcnn:verify_lock", "scripts.run_fsrcnn:verify_lock", "scripts.run_edsr:verify_lock", "scripts.run_esrgan:verify_lock"], "text": "Kiểm receipt/config/source trước khi nạp cặp; sai → raise, dừng.", "shape": "process"}
+    L1_A2["L1_A2<br/>scripts.run_srcnn:verify_lock<br/>scripts.run_fsrcnn:verify_lock<br/>scripts.run_edsr:verify_lock<br/>scripts.run_esrgan:verify_lock<br/>Kiểm receipt/config/source trước khi nạp cặp; sai → raise,<br/>dừng."]
+    %% M9_NODE {"id": "L1_A3", "refs": ["sr_compare.io:load_pair", "sr_compare.io:load_rgb"], "text": "RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise.", "shape": "process"}
+    L1_A3["L1_A3<br/>sr_compare.io:load_pair<br/>sr_compare.io:load_rgb<br/>RGB uint8; LR H×W×3; HR 4H×4W×3. Mode/EXIF/shape sai → raise."]
+    %% M9_NODE {"id": "L1_A4", "refs": ["sr_compare.srcnn:load_srcnn", "sr_compare.fsrcnn:load_fsrcnn", "sr_compare.edsr:load_edsr", "sr_compare.esrgan:load_esrgan", "sr_compare.experiment:environment"], "text": "Nạp model strict/eval; capture environment trong main, trước run_pairs.", "shape": "process"}
+    L1_A4["L1_A4<br/>sr_compare.srcnn:load_srcnn<br/>sr_compare.fsrcnn:load_fsrcnn<br/>sr_compare.edsr:load_edsr<br/>sr_compare.esrgan:load_esrgan<br/>sr_compare.experiment:environment<br/>Nạp model strict/eval; capture environment trong main, trước<br/>run_pairs."]
+    %% M9_NODE {"id": "L1_A5", "refs": ["scripts.run_srcnn:run_pairs", "scripts.run_fsrcnn:run_pairs", "scripts.run_edsr:run_pairs", "scripts.run_esrgan:run_pairs"], "text": "Tạo output mới; lặp từng (name, HR, LR). Tiếp B1.", "shape": "process"}
+    L1_A5["L1_A5<br/>scripts.run_srcnn:run_pairs<br/>scripts.run_fsrcnn:run_pairs<br/>scripts.run_edsr:run_pairs<br/>scripts.run_esrgan:run_pairs<br/>Tạo output mới; lặp từng (name, HR, LR). Tiếp B1."]
+    %% M9_NODE {"id": "L1_A6", "refs": ["scripts.run_bicubic:main", "sr_compare.experiment:run_experiment"], "text": "Nhánh Bicubic Set5: load_pair → vòng lặp B1; không verify_lock/nạp model.", "shape": "process"}
+    L1_A6["L1_A6<br/>scripts.run_bicubic:main<br/>sr_compare.experiment:run_experiment<br/>Nhánh Bicubic Set5: load_pair → vòng lặp B1; không<br/>verify_lock/nạp model."]
+  end
+  subgraph L1_P1["B · Một cặp → metric → timing → lưu"]
+    direction TB
+    %% M9_NODE {"id": "L1_B1", "refs": ["sr_compare.srcnn:super_resolve", "sr_compare.fsrcnn:super_resolve", "sr_compare.edsr:super_resolve", "sr_compare.esrgan:super_resolve", "sr_compare.bicubic:upscale"], "text": "Từ A5/A6: adapter LR→SR, gồm lượng tử cuối; chi tiết L2–L6. SR RGB uint8 4H×4W×3.", "shape": "process"}
+    L1_B1["L1_B1<br/>sr_compare.srcnn:super_resolve<br/>sr_compare.fsrcnn:super_resolve<br/>sr_compare.edsr:super_resolve<br/>sr_compare.esrgan:super_resolve<br/>sr_compare.bicubic:upscale<br/>Từ A5/A6: adapter LR→SR, gồm lượng tử cuối; chi tiết L2–L6.<br/>SR RGB uint8 4H×4W×3."]
+    %% M9_NODE {"id": "L1_B2", "refs": ["sr_compare.metrics:evaluate", "sr_compare.metrics:rgb_to_y"], "text": "Check HR.shape == SR.shape trước crop. RGB uint8 → Y BT.601 float64 → crop4; RGB crop4 phụ.", "shape": "process"}
+    L1_B2["L1_B2<br/>sr_compare.metrics:evaluate<br/>sr_compare.metrics:rgb_to_y<br/>Check HR.shape == SR.shape trước crop. RGB uint8 → Y BT.601<br/>float64 → crop4; RGB crop4 phụ."]
+    %% M9_NODE {"id": "L1_B3", "refs": ["sr_compare.metrics:_measure"], "text": "MSE/PSNR/SSIM; range255; Gaussian11, σ1.5; population covariance. Y chính; RGB bổ sung.", "shape": "process"}
+    L1_B3["L1_B3<br/>sr_compare.metrics:_measure<br/>MSE/PSNR/SSIM; range255; Gaussian11, σ1.5; population<br/>covariance. Y chính; RGB bổ sung."]
+    %% M9_NODE {"id": "L1_B4", "refs": ["sr_compare.timing:measure"], "text": "Sau metric: gọi lại adapter nhiều lần (C1–C4); không suy median từ SR ở B1. Xong C4 → B5.", "shape": "process"}
+    L1_B4["L1_B4<br/>sr_compare.timing:measure<br/>Sau metric: gọi lại adapter nhiều lần (C1–C4); không suy<br/>median từ SR ở B1. Xong C4 → B5."]
+    %% M9_NODE {"id": "L1_B5", "refs": ["sr_compare.io:save_rgb"], "text": "Lưu SR PNG từ B1 sau timing. Còn cặp → B1; hết cặp → B6.", "shape": "process"}
+    L1_B5["L1_B5<br/>sr_compare.io:save_rgb<br/>Lưu SR PNG từ B1 sau timing. Còn cặp → B1; hết cặp → B6."]
+    %% M9_NODE {"id": "L1_B6", "refs": ["sr_compare.experiment:write_json", "scripts.run_srcnn:run_pairs", "scripts.run_fsrcnn:run_pairs", "scripts.run_edsr:run_pairs", "scripts.run_esrgan:run_pairs", "sr_compare.experiment:run_experiment"], "text": "Mean per-image; metrics/environment JSON và metrics CSV do runner ghi. Không ghi đè output.", "shape": "process"}
+    L1_B6["L1_B6<br/>sr_compare.experiment:write_json<br/>scripts.run_srcnn:run_pairs<br/>scripts.run_fsrcnn:run_pairs<br/>scripts.run_edsr:run_pairs<br/>scripts.run_esrgan:run_pairs<br/>sr_compare.experiment:run_experiment<br/>Mean per-image; metrics/environment JSON và metrics CSV do<br/>runner ghi. Không ghi đè output."]
+  end
+  subgraph L1_P2["C · Chi tiết lời gọi timing B4"]
+    direction TB
+    %% M9_NODE {"id": "L1_C1", "refs": ["sr_compare.timing:measure"], "text": "Pipeline: warm-up3 ngoài đồng hồ; n10 mạng / n30 Bicubic NumPy của run đã khóa.", "shape": "process"}
+    L1_C1["L1_C1<br/>sr_compare.timing:measure<br/>Pipeline: warm-up3 ngoài đồng hồ; n10 mạng / n30 Bicubic<br/>NumPy của run đã khóa."]
+    %% M9_NODE {"id": "L1_C2", "refs": ["sr_compare.srcnn:super_resolve", "sr_compare.fsrcnn:super_resolve", "sr_compare.edsr:super_resolve", "sr_compare.esrgan:super_resolve", "sr_compare.bicubic:upscale"], "text": "Mỗi mẫu pipeline: perf_counter_ns → adapter đầy đủ → elapsed. Có pre/post/lượng tử; loại I/O/load/metric.", "shape": "process"}
+    L1_C2["L1_C2<br/>sr_compare.srcnn:super_resolve<br/>sr_compare.fsrcnn:super_resolve<br/>sr_compare.edsr:super_resolve<br/>sr_compare.esrgan:super_resolve<br/>sr_compare.bicubic:upscale<br/>Mỗi mẫu pipeline: perf_counter_ns → adapter đầy đủ → elapsed.<br/>Có pre/post/lượng tử; loại I/O/load/metric."]
+    %% M9_NODE {"id": "L1_C3", "refs": ["scripts.run_srcnn:prepare_forward", "scripts.run_fsrcnn:prepare_forward", "sr_compare.edsr:prepare_input", "sr_compare.esrgan:prepare_input"], "text": "Chỉ mạng: chuẩn bị tensor một lần SAU pipeline timing, NGOÀI network timing.", "shape": "process"}
+    L1_C3["L1_C3<br/>scripts.run_srcnn:prepare_forward<br/>scripts.run_fsrcnn:prepare_forward<br/>sr_compare.edsr:prepare_input<br/>sr_compare.esrgan:prepare_input<br/>Chỉ mạng: chuẩn bị tensor một lần SAU pipeline timing, NGOÀI<br/>network timing."]
+    %% M9_NODE {"id": "L1_C4", "refs": ["sr_compare.timing:measure", "sr_compare.srcnn:Srcnn.forward", "sr_compare.fsrcnn:Fsrcnn.forward", "sr_compare.edsr:Edsr.forward", "sr_compare.esrgan:RrdbNet.forward"], "text": "Network: inference_mode; warm-up3/n10; chỉ model(tensor). Median/IQR riêng → trở lại B5.", "shape": "process"}
+    L1_C4["L1_C4<br/>sr_compare.timing:measure<br/>sr_compare.srcnn:Srcnn.forward<br/>sr_compare.fsrcnn:Fsrcnn.forward<br/>sr_compare.edsr:Edsr.forward<br/>sr_compare.esrgan:RrdbNet.forward<br/>Network: inference_mode; warm-up3/n10; chỉ model(tensor).<br/>Median/IQR riêng → trở lại B5."]
+  end
+  L1_A1 --> L1_A2
+  L1_A2 -->|"PASS"| L1_A3
+  L1_A3 -->|"PASS"| L1_A4
+  L1_A4 --> L1_A5
+  L1_A5 -->|"tiếp"| L1_B1
+  L1_A6 -->|"Bicubic"| L1_B1
+  L1_B1 --> L1_B2
+  L1_B2 -->|"PASS"| L1_B3
+  L1_B3 --> L1_B4
+  L1_B4 -->|"gọi"| L1_C1
+  L1_C1 --> L1_C2
+  L1_C2 -->|"chỉ mạng"| L1_C3
+  L1_C2 -->|"Bicubic"| L1_B5
+  L1_C3 --> L1_C4
+  L1_C4 -->|"trả về"| L1_B5
+  L1_B5 -->|"còn cặp"| L1_B1
+  L1_B5 -->|"hết cặp"| L1_B6
+  L1_NOTES["Giới hạn và nguồn<br/>H,W là kích thước LR; tensor mạng NCHW, N=1. Các mũi tên khác panel được ghi rõ ID đích.<br/>B2/B3 không thuộc vùng đo. Hai median pipeline/network độc lập; không lấy hiệu làm overhead chính xác.<br/>SRCNN/FSRCNN diagnostic_psnr trên Y uint8 được tính riêng sau evaluate; không thay Y chính.<br/>ESRGAN run_pairs còn lưu prequant.npy sau save_rgb (np.save); sơ đồ mô tả code, không chạy inference.<br/>Word: đặt từng panel riêng, rộng ít nhất 8.3 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.<br/>SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực<br/>tiếp."]

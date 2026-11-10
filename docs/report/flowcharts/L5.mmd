@@ -1,0 +1,39 @@
+%% Documentation-only; generated with Python stdlib, not Mermaid CLI.
+%% Module names resolve to src/sr_compare/*.py or scripts/*.py.
+flowchart TB
+  subgraph L5_P0["A · RGB LR và thân residual"]
+    direction TB
+    %% M9_NODE {"id": "L5_A1", "refs": ["sr_compare.edsr:load_edsr"], "text": "Ngoài timing: SHA256 → params/74 entries FP32 finite → strict/1,517,571 parameters → eval.", "shape": "process"}
+    L5_A1["L5_A1<br/>sr_compare.edsr:load_edsr<br/>Ngoài timing: SHA256 → params/74 entries FP32 finite →<br/>strict/1,517,571 parameters → eval."]
+    %% M9_NODE {"id": "L5_A2", "refs": ["sr_compare.edsr:super_resolve", "sr_compare.edsr:prepare_input"], "text": "RGB uint8 H×W×3 → RGB FP32 [0,1], NCHW 1×3×H×W; inference_mode.", "shape": "process"}
+    L5_A2["L5_A2<br/>sr_compare.edsr:super_resolve<br/>sr_compare.edsr:prepare_input<br/>RGB uint8 H×W×3 → RGB FP32 [0,1], NCHW 1×3×H×W;<br/>inference_mode."]
+    %% M9_NODE {"id": "L5_A3", "refs": ["sr_compare.edsr:Edsr.forward", "sr_compare.edsr:subtract_mean"], "text": "(x−RGBmean)×255; mean=(.4488,.4371,.4040). conv_first3×3 3→64 zero-pad1 → head 1×64×H×W.", "shape": "process"}
+    L5_A3["L5_A3<br/>sr_compare.edsr:Edsr.forward<br/>sr_compare.edsr:subtract_mean<br/>(x−RGBmean)×255; mean=(.4488,.4371,.4040). conv_first3×3 3→64<br/>zero-pad1 → head 1×64×H×W."]
+    %% M9_NODE {"id": "L5_A4", "refs": ["sr_compare.edsr:ResidualBlock.forward"], "text": "16 lần: x + conv3(ReLU(conv3(x)))×1; cả hai conv64→64 zero-pad1; không BN; giữ H×W.", "shape": "process"}
+    L5_A4["L5_A4<br/>sr_compare.edsr:ResidualBlock.forward<br/>16 lần: x + conv3(ReLU(conv3(x)))×1; cả hai conv64→64<br/>zero-pad1; không BN; giữ H×W."]
+    %% M9_NODE {"id": "L5_A5", "refs": ["sr_compare.edsr:Edsr.forward"], "text": "conv_after_body3×3 64→64 zero-pad1; cộng head (global skip). FP32 1×64×H×W. Tiếp B1.", "shape": "process"}
+    L5_A5["L5_A5<br/>sr_compare.edsr:Edsr.forward<br/>conv_after_body3×3 64→64 zero-pad1; cộng head (global skip).<br/>FP32 1×64×H×W. Tiếp B1."]
+  end
+  subgraph L5_P1["B · Hai shuffle và lượng tử RGB"]
+    direction TB
+    %% M9_NODE {"id": "L5_B1", "refs": ["sr_compare.edsr:Edsr.forward"], "text": "conv3 64→256 zero-pad1 → PixelShuffle2: 1×64×2H×2W; lặp conv3/shuffle2 → 1×64×4H×4W.", "shape": "process"}
+    L5_B1["L5_B1<br/>sr_compare.edsr:Edsr.forward<br/>conv3 64→256 zero-pad1 → PixelShuffle2: 1×64×2H×2W; lặp<br/>conv3/shuffle2 → 1×64×4H×4W."]
+    %% M9_NODE {"id": "L5_B2", "refs": ["sr_compare.edsr:Edsr.forward", "sr_compare.edsr:add_mean"], "text": "conv_last3×3 64→3 zero-pad1, tuyến tính; add_mean: x/255+RGBmean → RGB FP32 1×3×4H×4W.", "shape": "process"}
+    L5_B2["L5_B2<br/>sr_compare.edsr:Edsr.forward<br/>sr_compare.edsr:add_mean<br/>conv_last3×3 64→3 zero-pad1, tuyến tính; add_mean:<br/>x/255+RGBmean → RGB FP32 1×3×4H×4W."]
+    %% M9_NODE {"id": "L5_B3", "refs": ["sr_compare.edsr:super_resolve"], "text": "Lấy batch0 ×255 → CHW intensities FP32; finite check; đếm exact-half trước lượng tử.", "shape": "process"}
+    L5_B3["L5_B3<br/>sr_compare.edsr:super_resolve<br/>Lấy batch0 ×255 → CHW intensities FP32; finite check; đếm<br/>exact-half trước lượng tử."]
+    %% M9_NODE {"id": "L5_B4", "refs": ["sr_compare.edsr:tensor_to_rgb", "sr_compare.edsr:quantize_values"], "text": "Finite → clamp[0,255] → torch.round half-to-even → uint8; permute/copy → RGB 4H×4W×3.", "shape": "process"}
+    L5_B4["L5_B4<br/>sr_compare.edsr:tensor_to_rgb<br/>sr_compare.edsr:quantize_values<br/>Finite → clamp[0,255] → torch.round half-to-even → uint8;<br/>permute/copy → RGB 4H×4W×3."]
+    %% M9_NODE {"id": "L5_B5", "refs": ["sr_compare.metrics:evaluate"], "text": "RGB uint8 → shape check → Y float64/crop4; RGB crop4 phụ. Metric chung L1.", "shape": "process"}
+    L5_B5["L5_B5<br/>sr_compare.metrics:evaluate<br/>RGB uint8 → shape check → Y float64/crop4; RGB crop4 phụ.<br/>Metric chung L1."]
+  end
+  L5_A1 --> L5_A2
+  L5_A2 --> L5_A3
+  L5_A3 --> L5_A4
+  L5_A4 --> L5_A5
+  L5_A5 -->|"tiếp"| L5_B1
+  L5_B1 --> L5_B2
+  L5_B2 --> L5_B3
+  L5_B3 --> L5_B4
+  L5_B4 --> L5_B5
+  L5_NOTES["Giới hạn và nguồn<br/>KE1: Training DIV2K bicubic mô tả MATLAB; công cụ LR SelfExSR UNVERIFIED, không suy degradation giống nhau.<br/>KE2: Checkpoint BasicSR chưa so tensor với bản SNU gốc; conversion chain UNVERIFIED.<br/>KE3: Half-to-even khác half-up/half-away. KE4: Dùng metric M1 chung thay calc_psnr riêng của nguồn.<br/>KE5: Training overlap DIV2K/Set5 chưa audit. Nguồn: docs/M5_EDSR_RESULTS.md, mục KE1–KE5.<br/>Đây là baseline16/64, res_scale1; không phải EDSR full32/256 res_scale0.1.<br/>Word: đặt từng panel riêng, rộng ít nhất 12.0 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.<br/>SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực<br/>tiếp."]

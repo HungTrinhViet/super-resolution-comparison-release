@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1628 1838" width="1628" height="1838" role="img" aria-labelledby="L1_title L1_desc">
+  <title id="L1_title">L1 · Luồng thực thi benchmark ×4 (đọc từ code)</title>
+  <desc id="L1_desc">Luồng code có module:hàm chính xác. H,W là kích thước LR; tensor mạng NCHW, N=1. Các mũi tên khác panel được ghi rõ ID đích. B2/B3 không thuộc vùng đo. Hai median pipeline/network độc lập; không lấy hiệu làm overhead chính xác. SRCNN/FSRCNN diagnostic_psnr trên Y uint8 được tính riêng sau evaluate; không thay Y chính. ESRGAN run_pairs còn lưu prequant.npy sau save_rgb (np.save); sơ đồ mô tả code, không chạy inference. Word: đặt từng panel riêng, rộng ít nhất 8.3 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang. SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp. Edges: [["L1_A1", "L1_A2", ""], ["L1_A2", "L1_A3", "PASS"], ["L1_A3", "L1_A4", "PASS"], ["L1_A4", "L1_A5", ""], ["L1_A5", "L1_B1", "tiếp"], ["L1_A6", "L1_B1", "Bicubic"], ["L1_B1", "L1_B2", ""], ["L1_B2", "L1_B3", "PASS"], ["L1_B3", "L1_B4", ""], ["L1_B4", "L1_C1", "gọi"], ["L1_C1", "L1_C2", ""], ["L1_C2", "L1_C3", "chỉ mạng"], ["L1_C2", "L1_B5", "Bicubic"], ["L1_C3", "L1_C4", ""], ["L1_C4", "L1_B5", "trả về"], ["L1_B5", "L1_B1", "còn cặp"], ["L1_B5", "L1_B6", "hết cặp"]]</desc>
+  <rect width="1628" height="1838" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="29" fill="#17212b" x="24" y="38" font-weight="700">L1 · Luồng thực thi benchmark ×4 (đọc từ code)</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="72">Đọc từ trên xuống trong từng panel; liên kết khác panel dùng ID. H,W = kích thước LR; N = 1.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="106" font-weight="700">A · Chuẩn bị ngoài timing</text>
+  <g id="L1_A1" data-refs="scripts.run_srcnn:main scripts.run_fsrcnn:main scripts.run_edsr:main scripts.run_esrgan:main">
+    <rect x="24" y="122" width="504" height="206" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="150" font-weight="700">L1_A1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="176" font-weight="400">scripts.run_srcnn:main</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="202" font-weight="400">scripts.run_fsrcnn:main</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="228" font-weight="400">scripts.run_edsr:main</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="254" font-weight="400">scripts.run_esrgan:main</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="280" font-weight="400">Bốn runner mạng; CPU FP32, batch 1;</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="306" font-weight="400">threads 4/1.</text>
+  </g>
+  <g id="L1_A2" data-refs="scripts.run_srcnn:verify_lock scripts.run_fsrcnn:verify_lock scripts.run_edsr:verify_lock scripts.run_esrgan:verify_lock">
+    <rect x="24" y="386" width="504" height="206" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="414" font-weight="700">L1_A2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="440" font-weight="400">scripts.run_srcnn:verify_lock</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="466" font-weight="400">scripts.run_fsrcnn:verify_lock</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="492" font-weight="400">scripts.run_edsr:verify_lock</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="518" font-weight="400">scripts.run_esrgan:verify_lock</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="544" font-weight="400">Kiểm receipt/config/source trước khi nạp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="570" font-weight="400">cặp; sai → raise, dừng.</text>
+  </g>
+  <g id="L1_A3" data-refs="sr_compare.io:load_pair sr_compare.io:load_rgb">
+    <rect x="24" y="650" width="504" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="678" font-weight="700">L1_A3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="704" font-weight="400">sr_compare.io:load_pair</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="730" font-weight="400">sr_compare.io:load_rgb</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="756" font-weight="400">RGB uint8; LR H×W×3; HR 4H×4W×3.</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="782" font-weight="400">Mode/EXIF/shape sai → raise.</text>
+  </g>
+  <g id="L1_A4" data-refs="sr_compare.srcnn:load_srcnn sr_compare.fsrcnn:load_fsrcnn sr_compare.edsr:load_edsr sr_compare.esrgan:load_esrgan sr_compare.experiment:environment">
+    <rect x="24" y="862" width="504" height="232" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="890" font-weight="700">L1_A4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="916" font-weight="400">sr_compare.srcnn:load_srcnn</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="942" font-weight="400">sr_compare.fsrcnn:load_fsrcnn</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="968" font-weight="400">sr_compare.edsr:load_edsr</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="994" font-weight="400">sr_compare.esrgan:load_esrgan</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1020" font-weight="400">sr_compare.experiment:environment</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1046" font-weight="400">Nạp model strict/eval; capture</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1072" font-weight="400">environment trong main, trước run_pairs.</text>
+  </g>
+  <g id="L1_A5" data-refs="scripts.run_srcnn:run_pairs scripts.run_fsrcnn:run_pairs scripts.run_edsr:run_pairs scripts.run_esrgan:run_pairs">
+    <rect x="24" y="1152" width="504" height="206" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1180" font-weight="700">L1_A5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1206" font-weight="400">scripts.run_srcnn:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1232" font-weight="400">scripts.run_fsrcnn:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1258" font-weight="400">scripts.run_edsr:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1284" font-weight="400">scripts.run_esrgan:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1310" font-weight="400">Tạo output mới; lặp từng (name, HR, LR).</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1336" font-weight="400">Tiếp B1.</text>
+  </g>
+  <g id="L1_A6" data-refs="scripts.run_bicubic:main sr_compare.experiment:run_experiment">
+    <rect x="24" y="1416" width="504" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1444" font-weight="700">L1_A6</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1470" font-weight="400">scripts.run_bicubic:main</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1496" font-weight="400">sr_compare.experiment:run_experiment</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1522" font-weight="400">Nhánh Bicubic Set5: load_pair → vòng lặp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="37" y="1548" font-weight="400">B1; không verify_lock/nạp model.</text>
+  </g>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="556" y="106" font-weight="700">B · Một cặp → metric → timing → lưu</text>
+  <g id="L1_B1" data-refs="sr_compare.srcnn:super_resolve sr_compare.fsrcnn:super_resolve sr_compare.edsr:super_resolve sr_compare.esrgan:super_resolve sr_compare.bicubic:upscale">
+    <rect x="556" y="122" width="504" height="258" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="150" font-weight="700">L1_B1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="176" font-weight="400">sr_compare.srcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="202" font-weight="400">sr_compare.fsrcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="228" font-weight="400">sr_compare.edsr:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="254" font-weight="400">sr_compare.esrgan:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="280" font-weight="400">sr_compare.bicubic:upscale</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="306" font-weight="400">Từ A5/A6: adapter LR→SR, gồm lượng tử</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="332" font-weight="400">cuối; chi tiết L2–L6. SR RGB uint8</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="358" font-weight="400">4H×4W×3.</text>
+  </g>
+  <g id="L1_B2" data-refs="sr_compare.metrics:evaluate sr_compare.metrics:rgb_to_y">
+    <rect x="556" y="438" width="504" height="180" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="466" font-weight="700">L1_B2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="492" font-weight="400">sr_compare.metrics:evaluate</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="518" font-weight="400">sr_compare.metrics:rgb_to_y</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="544" font-weight="400">Check HR.shape == SR.shape trước crop.</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="570" font-weight="400">RGB uint8 → Y BT.601 float64 → crop4; RGB</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="596" font-weight="400">crop4 phụ.</text>
+  </g>
+  <g id="L1_B3" data-refs="sr_compare.metrics:_measure">
+    <rect x="556" y="676" width="504" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="704" font-weight="700">L1_B3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="730" font-weight="400">sr_compare.metrics:_measure</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="756" font-weight="400">MSE/PSNR/SSIM; range255; Gaussian11,</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="782" font-weight="400">σ1.5; population covariance. Y chính; RGB</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="808" font-weight="400">bổ sung.</text>
+  </g>
+  <g id="L1_B4" data-refs="sr_compare.timing:measure">
+    <rect x="556" y="888" width="504" height="154" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="916" font-weight="700">L1_B4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="942" font-weight="400">sr_compare.timing:measure</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="968" font-weight="400">Sau metric: gọi lại adapter nhiều lần</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="994" font-weight="400">(C1–C4); không suy median từ SR ở B1.</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1020" font-weight="400">Xong C4 → B5.</text>
+  </g>
+  <g id="L1_B5" data-refs="sr_compare.io:save_rgb">
+    <rect x="556" y="1100" width="504" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1128" font-weight="700">L1_B5</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1154" font-weight="400">sr_compare.io:save_rgb</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1180" font-weight="400">Lưu SR PNG từ B1 sau timing. Còn cặp →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1206" font-weight="400">B1; hết cặp → B6.</text>
+  </g>
+  <g id="L1_B6" data-refs="sr_compare.experiment:write_json scripts.run_srcnn:run_pairs scripts.run_fsrcnn:run_pairs scripts.run_edsr:run_pairs scripts.run_esrgan:run_pairs sr_compare.experiment:run_experiment">
+    <rect x="556" y="1286" width="504" height="284" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1314" font-weight="700">L1_B6</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1340" font-weight="400">sr_compare.experiment:write_json</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1366" font-weight="400">scripts.run_srcnn:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1392" font-weight="400">scripts.run_fsrcnn:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1418" font-weight="400">scripts.run_edsr:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1444" font-weight="400">scripts.run_esrgan:run_pairs</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1470" font-weight="400">sr_compare.experiment:run_experiment</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1496" font-weight="400">Mean per-image; metrics/environment JSON</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1522" font-weight="400">và metrics CSV do runner ghi. Không ghi</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="569" y="1548" font-weight="400">đè output.</text>
+  </g>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1088" y="106" font-weight="700">C · Chi tiết lời gọi timing B4</text>
+  <g id="L1_C1" data-refs="sr_compare.timing:measure">
+    <rect x="1088" y="122" width="504" height="128" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="150" font-weight="700">L1_C1</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="176" font-weight="400">sr_compare.timing:measure</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="202" font-weight="400">Pipeline: warm-up3 ngoài đồng hồ; n10</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="228" font-weight="400">mạng / n30 Bicubic NumPy của run đã khóa.</text>
+  </g>
+  <g id="L1_C2" data-refs="sr_compare.srcnn:super_resolve sr_compare.fsrcnn:super_resolve sr_compare.edsr:super_resolve sr_compare.esrgan:super_resolve sr_compare.bicubic:upscale">
+    <rect x="1088" y="308" width="504" height="258" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="336" font-weight="700">L1_C2</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="362" font-weight="400">sr_compare.srcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="388" font-weight="400">sr_compare.fsrcnn:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="414" font-weight="400">sr_compare.edsr:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="440" font-weight="400">sr_compare.esrgan:super_resolve</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="466" font-weight="400">sr_compare.bicubic:upscale</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="492" font-weight="400">Mỗi mẫu pipeline: perf_counter_ns →</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="518" font-weight="400">adapter đầy đủ → elapsed. Có</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="544" font-weight="400">pre/post/lượng tử; loại I/O/load/metric.</text>
+  </g>
+  <g id="L1_C3" data-refs="scripts.run_srcnn:prepare_forward scripts.run_fsrcnn:prepare_forward sr_compare.edsr:prepare_input sr_compare.esrgan:prepare_input">
+    <rect x="1088" y="624" width="504" height="206" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="652" font-weight="700">L1_C3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="678" font-weight="400">scripts.run_srcnn:prepare_forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="704" font-weight="400">scripts.run_fsrcnn:prepare_forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="730" font-weight="400">sr_compare.edsr:prepare_input</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="756" font-weight="400">sr_compare.esrgan:prepare_input</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="782" font-weight="400">Chỉ mạng: chuẩn bị tensor một lần SAU</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="808" font-weight="400">pipeline timing, NGOÀI network timing.</text>
+  </g>
+  <g id="L1_C4" data-refs="sr_compare.timing:measure sr_compare.srcnn:Srcnn.forward sr_compare.fsrcnn:Fsrcnn.forward sr_compare.edsr:Edsr.forward sr_compare.esrgan:RrdbNet.forward">
+    <rect x="1088" y="888" width="504" height="258" rx="9" fill="#f8fafc" stroke="#344054" stroke-width="1.5" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="916" font-weight="700">L1_C4</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="942" font-weight="400">sr_compare.timing:measure</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="968" font-weight="400">sr_compare.srcnn:Srcnn.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="994" font-weight="400">sr_compare.fsrcnn:Fsrcnn.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="1020" font-weight="400">sr_compare.edsr:Edsr.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="1046" font-weight="400">sr_compare.esrgan:RrdbNet.forward</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="1072" font-weight="400">Network: inference_mode; warm-up3/n10;</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="1098" font-weight="400">chỉ model(tensor). Median/IQR riêng → trở</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1101" y="1124" font-weight="400">lại B5.</text>
+  </g>
+  <path d="M 503 328 V 379" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_A1 L1_A2" />
+  <path d="M 503 592 V 643" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_A2 L1_A3" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="36" y="624">PASS</text>
+  <path d="M 503 804 V 855" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_A3 L1_A4" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="36" y="836">PASS</text>
+  <path d="M 503 1094 V 1145" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_A4 L1_A5" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="33" y="1383" data-edge="L1_A5 L1_B1">→ L1_B1 · tiếp</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="33" y="1595" data-edge="L1_A6 L1_B1">→ L1_B1 · Bicubic</text>
+  <path d="M 1035 380 V 431" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_B1 L1_B2" />
+  <path d="M 1035 618 V 669" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_B2 L1_B3" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="568" y="650">PASS</text>
+  <path d="M 1035 830 V 881" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_B3 L1_B4" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="565" y="1067" data-edge="L1_B4 L1_C1">→ L1_C1 · gọi</text>
+  <path d="M 1567 250 V 301" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_C1 L1_C2" />
+  <path d="M 1567 566 V 617" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_C2 L1_C3" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1100" y="598">chỉ mạng</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1097" y="591" data-edge="L1_C2 L1_B5">→ L1_B5 · Bicubic</text>
+  <path d="M 1567 830 V 881" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_C3 L1_C4" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="1097" y="1171" data-edge="L1_C4 L1_B5">→ L1_B5 · trả về</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="565" y="1253" data-edge="L1_B5 L1_B1">→ L1_B1 · còn cặp</text>
+  <path d="M 1035 1228 V 1279" stroke="#344054" stroke-width="1.5" fill="none" marker-end="url(#arrow)" data-edge="L1_B5 L1_B6" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="568" y="1260">hết cặp</text>
+  <line x1="24" x2="1604" y1="1622" y2="1622" stroke="#667085" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1655">H,W là kích thước LR; tensor mạng NCHW, N=1. Các mũi tên khác panel được ghi rõ ID đích.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1681">B2/B3 không thuộc vùng đo. Hai median pipeline/network độc lập; không lấy hiệu làm overhead chính xác.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1707">SRCNN/FSRCNN diagnostic_psnr trên Y uint8 được tính riêng sau evaluate; không thay Y chính.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1733">ESRGAN run_pairs còn lưu prequant.npy sau save_rgb (np.save); sơ đồ mô tả code, không chạy inference.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1759">Word: đặt từng panel riêng, rộng ít nhất 8.3 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.</text>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="21" fill="#17212b" x="24" y="1785">SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực tiếp.</text>
+</svg>

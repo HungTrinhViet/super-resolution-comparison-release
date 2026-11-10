@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 702" width="680" height="702" role="img" aria-labelledby="C4_title">
+  <title id="C4_title">C4 · FSRCNN(56,12,4) ×4</title>
+  <desc>Two-line processing boxes; original technical details in nonvisible metadata and Mermaid comments.</desc>
+  <metadata>[{"id": "C4_1", "correspondingLids": ["L4_A1", "L4_A2"], "details": {"L4_A1": "Ngoài timing: SHA256/MAT cell schema → order=F → FP32 strict/eval. Checkpoint đăng lại; xem KF7/KF8.", "L4_A2": "RGB uint8 H×W×3 → YCbCr uint8; Y.astype(FP32)/255 → 1×1×H×W; KHÔNG phóng Y trước."}}, {"id": "C4_2", "correspondingLids": ["L4_A3"], "details": {"L4_A3": "Lớp1: conv5 1→56 replicate2; lớp2: conv1 56→12 pad0; lớp3–6: bốn conv3 12→12 replicate1; lớp7: conv1 12→56 pad0."}}, {"id": "C4_3", "correspondingLids": ["L4_A3", "L4_A4"], "details": {"L4_A3": "Lớp1: conv5 1→56 replicate2; lớp2: conv1 56→12 pad0; lớp3–6: bốn conv3 12→12 replicate1; lớp7: conv1 12→56 pad0.", "L4_A4": "Mỗi lớp1–7: conv+bias rồi max(z,0)+a·min(z,0). Mỗi lớp một scalar a, có thể âm; giữ H×W FP32."}}, {"id": "C4_4", "correspondingLids": ["L4_A5"], "details": {"L4_A5": "1×56×H×W → replicate1 → conv_transpose2d9, stride4, padding0, output_padding0, bias=None; không lật kernel."}}, {"id": "C4_5", "correspondingLids": ["L4_A6"], "details": {"L4_A6": "Raw 1×1×(4H+13)×(4W+13) → crop [8:8+4H,8:8+4W] → bias một lần. Không PReLU lớp8. Tiếp B1."}}, {"id": "C4_6", "correspondingLids": ["L4_B1"], "details": {"L4_B1": "Finite Y float FP32 4H×4W → cast float64 ×255 → half-away-from-zero rồi saturate[0,255] → Y uint8."}}, {"id": "C4_7", "correspondingLids": ["L4_B2", "L4_B3"], "details": {"L4_B2": "Cb rồi Cr: LR uint8 → float64 bicubic×4 (symmetric, chưa lượng tử) → round/saturate mỗi kênh.", "L4_B3": "Stack Y,Cb,Cr uint8 4H×4W×3 → inverse BT.601 float64 → round/saturate → RGB uint8."}}, {"id": "C4_8", "correspondingLids": ["L4_B4"], "details": {"L4_B4": "Chỉ sau RGB uint8: HR/SR shape check → Y float64 → crop4 → metric L1. Y uint8 trực tiếp chỉ diagnostic."}}]</metadata>
+  <rect width="680" height="702" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L7 4 L0 8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="25" fill="#17212b" x="24" y="34" font-weight="700">C4 · FSRCNN(56,12,4) ×4</text>
+  <g id="C4_1" data-lids="L4_A1 L4_A2">
+    <rect x="24" y="58" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="84">Xác minh trọng số; nạp mạng trước khi đo</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="108">RGB → YCbCr uint8; Y/255 → FP32 1×1×H×W</text>
+  </g>
+  <g id="C4_2" data-lids="L4_A3">
+    <rect x="24" y="136" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="162">7 tích chập: 5×5 1→56; 1×1 56→12;</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="186">4 lớp 3×3 12→12; 1×1 12→56; giữ H×W</text>
+  </g>
+  <g id="C4_3" data-lids="L4_A3 L4_A4">
+    <rect x="24" y="214" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="240">Đệm lặp biên 2/0/1/1/1/1/0; bias mỗi lớp</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="264">PReLU: một hệ số chung mỗi lớp, có thể âm</text>
+  </g>
+  <g id="C4_4" data-lids="L4_A5">
+    <rect x="24" y="292" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="318">Đệm lặp biên 1 → tích chập chuyển vị 9×9</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="342">Bước 4, đệm 0 → 1×1×(4H+13)×(4W+13)</text>
+  </g>
+  <g id="C4_5" data-lids="L4_A6">
+    <rect x="24" y="370" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="396">Cắt [8:8+4H, 8:8+4W]; cộng bias một lần</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="420">Lớp 8 không PReLU → Y FP32 1×1×4H×4W</text>
+  </g>
+  <g id="C4_6" data-lids="L4_B1">
+    <rect x="24" y="448" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="474">Y hữu hạn → float64 ×255 → half-away</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="498">Bão hòa [0,255] → Y uint8 4H×4W</text>
+  </g>
+  <g id="C4_7" data-lids="L4_B2 L4_B3">
+    <rect x="24" y="526" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="552">Cb,Cr: bicubic ×4 đối xứng → half-away/bão hòa</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="576">Ghép YCbCr → BT.601 RGB → half-away/bão hòa</text>
+  </g>
+  <g id="C4_8" data-lids="L4_B4">
+    <rect x="24" y="604" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="630">SR RGB uint8 4H×4W×3; kiểm cùng cỡ HR</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="654">Y float64 → cắt 4 pixel mỗi cạnh → đánh giá</text>
+  </g>
+  <path d="M 340.0 122 V 133" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_1 C4_2" />
+  <path d="M 340.0 200 V 211" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_2 C4_3" />
+  <path d="M 340.0 278 V 289" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_3 C4_4" />
+  <path d="M 340.0 356 V 367" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_4 C4_5" />
+  <path d="M 340.0 434 V 445" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_5 C4_6" />
+  <path d="M 340.0 512 V 523" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_6 C4_7" />
+  <path d="M 340.0 590 V 601" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C4_7 C4_8" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="24" y="694">H,W: kích thước LR; đánh giá sau cắt 4 pixel mỗi cạnh.</text>
+</svg>

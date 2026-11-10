@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 780" width="680" height="780" role="img" aria-labelledby="C6_title">
+  <title id="C6_title">C6 · Original ESRGAN ×4</title>
+  <desc>Two-line processing boxes; original technical details in nonvisible metadata and Mermaid comments.</desc>
+  <metadata>[{"id": "C6_1", "correspondingLids": ["L6_A1", "L6_A2"], "details": {"L6_A1": "Ngoài timing: SHA256 → params/702 entries finite FP32 → strict/16,697,987 parameters → eval.", "L6_A2": "RGB uint8 H×W×3 → 1×3×H×W FP32 /255; không mean shift, inference_mode."}}, {"id": "C6_2", "correspondingLids": ["L6_A3"], "details": {"L6_A3": "conv_first3×3 3→64, zero-pad1, tuyến tính → head 1×64×H×W."}}, {"id": "C6_3", "correspondingLids": ["L6_A4", "L6_B1", "L6_B4"], "details": {"L6_A4": "23 RRDB liên tiếp; chi tiết B1–B4. conv_body3×3 64→64 zero-pad1 + head → 1×64×H×W.", "L6_B1": "Một RRDB: r=RDB3(RDB2(RDB1(x))); output=x+0.2·r. Ba RDB; giữ 1×64×H×W.", "L6_B4": "conv5(cat[x,x1,x2,x3,x4]): 192→64 tuyến tính; RDB output=x+0.2·conv5. Conv3×3 zero-pad1; trả về A4."}}, {"id": "C6_4", "correspondingLids": ["L6_B2", "L6_B3", "L6_B4"], "details": {"L6_B2": "Trong mỗi RDB: conv1(x) → x1; conv2(cat[x,x1]) → x2; conv3(cat[x,x1,x2]) → x3.", "L6_B3": "conv4(cat[x,x1,x2,x3]) → x4. Input channels 64/96/128/160; mỗi conv ra32 rồi LReLU.2.", "L6_B4": "conv5(cat[x,x1,x2,x3,x4]): 192→64 tuyến tính; RDB output=x+0.2·conv5. Conv3×3 zero-pad1; trả về A4."}}, {"id": "C6_5", "correspondingLids": ["L6_A4"], "details": {"L6_A4": "23 RRDB liên tiếp; chi tiết B1–B4. conv_body3×3 64→64 zero-pad1 + head → 1×64×H×W."}}, {"id": "C6_6", "correspondingLids": ["L6_A5"], "details": {"L6_A5": "nearest×2 → conv_up1 64→64 → LReLU.2; lặp nearest×2/conv_up2/LReLU.2 → 1×64×4H×4W."}}, {"id": "C6_7", "correspondingLids": ["L6_A6"], "details": {"L6_A6": "conv_hr64→64/LReLU.2 → conv_last64→3 tuyến tính; mọi conv3×3 zero-pad1. Tiếp C1."}}, {"id": "C6_8", "correspondingLids": ["L6_C1", "L6_C2", "L6_C3"], "details": {"L6_C1": "Từ A6: normalized FP32 batch0 3×4H×4W → finite check → clamp[0,1] → ×255.", "L6_C2": "Finite → clamp[0,255] → torch.round half-to-even → uint8; không half-up.", "L6_C3": "permute/copy RGB uint8 4H×4W×3; lưu kèm prequant_float=(normalized×255) HWC chưa clamp."}}, {"id": "C6_9", "correspondingLids": ["L6_C4"], "details": {"L6_C4": "HR/SR cùng shape → RGB uint8 → Y float64/crop4; RGB crop4 phụ. Không đổi metric cho GAN."}}]</metadata>
+  <rect width="680" height="780" fill="white" />
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0 L7 4 L0 8 Z" fill="#344054" />
+    </marker>
+  </defs>
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="25" fill="#17212b" x="24" y="34" font-weight="700">C6 · Original ESRGAN ×4</text>
+  <g id="C6_1" data-lids="L6_A1 L6_A2">
+    <rect x="24" y="58" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="84">Xác minh trọng số; nạp mạng trước khi đo</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="108">RGB uint8 /255 → FP32 1×3×H×W; không dịch trung bình</text>
+  </g>
+  <g id="C6_2" data-lids="L6_A3">
+    <rect x="24" y="136" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="162">Tích chập đầu 3×3 tuyến tính 3→64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="186">Đệm 0 rộng 1 → đặc trưng đầu 1×64×H×W</text>
+  </g>
+  <g id="C6_3" data-lids="L6_A4 L6_B1 L6_B4">
+    <rect x="24" y="214" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="240">23 RRDB × 3 RDB; RDB=x+0.2·r</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="264">RRDB=x+0.2·RDB3(RDB2(RDB1(x)))</text>
+  </g>
+  <g id="C6_4" data-lids="L6_B2 L6_B3 L6_B4">
+    <rect x="24" y="292" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="318">Ghép x,x1,x2,x3,x4; kênh vào 64/96/128/160/192</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="342">4 lớp ra 32/LeakyReLU(0.2); lớp 5 ra 64 tuyến tính</text>
+  </g>
+  <g id="C6_5" data-lids="L6_A4">
+    <rect x="24" y="370" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="396">Tích chập thân 3×3 64→64 + đặc trưng đầu</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="420">Mọi tích chập 3×3 đệm 0 rộng 1; giữ H×W</text>
+  </g>
+  <g id="C6_6" data-lids="L6_A5">
+    <rect x="24" y="448" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="474">Hai lần: lân cận gần nhất ×2 → tích chập 64→64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="498">LeakyReLU(0.2); H×W → 2H×2W → 4H×4W</text>
+  </g>
+  <g id="C6_7" data-lids="L6_A6">
+    <rect x="24" y="526" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="552">Tích chập 64→64/LeakyReLU(0.2) → 64→3</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="576">Đầu ra tuyến tính FP32 1×3×4H×4W</text>
+  </g>
+  <g id="C6_8" data-lids="L6_C1 L6_C2 L6_C3">
+    <rect x="24" y="604" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="630">Hữu hạn → giới hạn [0,1] → ×255 → [0,255]</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="654">Half-to-even → RGB uint8 4H×4W×3</text>
+  </g>
+  <g id="C6_9" data-lids="L6_C4">
+    <rect x="24" y="682" width="632" height="64" rx="8" fill="#f8fafc" stroke="#344054" stroke-width="1.4" />
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="708">HR/SR cùng kích thước → Y float64</text>
+    <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="36" y="732">Cắt 4 pixel mỗi cạnh → PSNR/SSIM Y; RGB phụ</text>
+  </g>
+  <path d="M 340.0 122 V 133" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_1 C6_2" />
+  <path d="M 340.0 200 V 211" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_2 C6_3" />
+  <path d="M 340.0 278 V 289" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_3 C6_4" />
+  <path d="M 340.0 356 V 367" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_4 C6_5" />
+  <path d="M 340.0 434 V 445" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_5 C6_6" />
+  <path d="M 340.0 512 V 523" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_6 C6_7" />
+  <path d="M 340.0 590 V 601" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_7 C6_8" />
+  <path d="M 340.0 668 V 679" fill="none" stroke="#344054" stroke-width="1.4" marker-end="url(#arrow)" data-edge="C6_8 C6_9" />
+  <text font-family="Arial, DejaVu Sans, sans-serif" font-size="20" fill="#17212b" x="24" y="772">H,W: kích thước LR; đánh giá sau cắt 4 pixel mỗi cạnh.</text>
+</svg>

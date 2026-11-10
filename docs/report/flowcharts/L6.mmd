@@ -1,0 +1,55 @@
+%% Documentation-only; generated with Python stdlib, not Mermaid CLI.
+%% Module names resolve to src/sr_compare/*.py or scripts/*.py.
+flowchart TB
+  subgraph L6_P0["A · Generator, skip và phóng cuối"]
+    direction TB
+    %% M9_NODE {"id": "L6_A1", "refs": ["sr_compare.esrgan:load_esrgan"], "text": "Ngoài timing: SHA256 → params/702 entries finite FP32 → strict/16,697,987 parameters → eval.", "shape": "process"}
+    L6_A1["L6_A1<br/>sr_compare.esrgan:load_esrgan<br/>Ngoài timing: SHA256 → params/702 entries finite FP32 →<br/>strict/16,697,987 parameters → eval."]
+    %% M9_NODE {"id": "L6_A2", "refs": ["sr_compare.esrgan:super_resolve", "sr_compare.esrgan:prepare_input"], "text": "RGB uint8 H×W×3 → 1×3×H×W FP32 /255; không mean shift, inference_mode.", "shape": "process"}
+    L6_A2["L6_A2<br/>sr_compare.esrgan:super_resolve<br/>sr_compare.esrgan:prepare_input<br/>RGB uint8 H×W×3 → 1×3×H×W FP32 /255; không mean shift,<br/>inference_mode."]
+    %% M9_NODE {"id": "L6_A3", "refs": ["sr_compare.esrgan:RrdbNet.forward"], "text": "conv_first3×3 3→64, zero-pad1, tuyến tính → head 1×64×H×W.", "shape": "process"}
+    L6_A3["L6_A3<br/>sr_compare.esrgan:RrdbNet.forward<br/>conv_first3×3 3→64, zero-pad1, tuyến tính → head 1×64×H×W."]
+    %% M9_NODE {"id": "L6_A4", "refs": ["sr_compare.esrgan:RrdbNet.forward", "sr_compare.esrgan:Rrdb.forward"], "text": "23 RRDB liên tiếp; chi tiết B1–B4. conv_body3×3 64→64 zero-pad1 + head → 1×64×H×W.", "shape": "process"}
+    L6_A4["L6_A4<br/>sr_compare.esrgan:RrdbNet.forward<br/>sr_compare.esrgan:Rrdb.forward<br/>23 RRDB liên tiếp; chi tiết B1–B4. conv_body3×3 64→64<br/>zero-pad1 + head → 1×64×H×W."]
+    %% M9_NODE {"id": "L6_A5", "refs": ["sr_compare.esrgan:RrdbNet.forward"], "text": "nearest×2 → conv_up1 64→64 → LReLU.2; lặp nearest×2/conv_up2/LReLU.2 → 1×64×4H×4W.", "shape": "process"}
+    L6_A5["L6_A5<br/>sr_compare.esrgan:RrdbNet.forward<br/>nearest×2 → conv_up1 64→64 → LReLU.2; lặp<br/>nearest×2/conv_up2/LReLU.2 → 1×64×4H×4W."]
+    %% M9_NODE {"id": "L6_A6", "refs": ["sr_compare.esrgan:RrdbNet.forward"], "text": "conv_hr64→64/LReLU.2 → conv_last64→3 tuyến tính; mọi conv3×3 zero-pad1. Tiếp C1.", "shape": "process"}
+    L6_A6["L6_A6<br/>sr_compare.esrgan:RrdbNet.forward<br/>conv_hr64→64/LReLU.2 → conv_last64→3 tuyến tính; mọi conv3×3<br/>zero-pad1. Tiếp C1."]
+  end
+  subgraph L6_P1["B · Chi tiết lồng trong A4"]
+    direction TB
+    %% M9_NODE {"id": "L6_B1", "refs": ["sr_compare.esrgan:Rrdb.forward"], "text": "Một RRDB: r=RDB3(RDB2(RDB1(x))); output=x+0.2·r. Ba RDB; giữ 1×64×H×W.", "shape": "process"}
+    L6_B1["L6_B1<br/>sr_compare.esrgan:Rrdb.forward<br/>Một RRDB: r=RDB3(RDB2(RDB1(x))); output=x+0.2·r. Ba RDB; giữ<br/>1×64×H×W."]
+    %% M9_NODE {"id": "L6_B2", "refs": ["sr_compare.esrgan:Rdb.forward"], "text": "Trong mỗi RDB: conv1(x) → x1; conv2(cat[x,x1]) → x2; conv3(cat[x,x1,x2]) → x3.", "shape": "process"}
+    L6_B2["L6_B2<br/>sr_compare.esrgan:Rdb.forward<br/>Trong mỗi RDB: conv1(x) → x1; conv2(cat[x,x1]) → x2;<br/>conv3(cat[x,x1,x2]) → x3."]
+    %% M9_NODE {"id": "L6_B3", "refs": ["sr_compare.esrgan:Rdb.forward"], "text": "conv4(cat[x,x1,x2,x3]) → x4. Input channels 64/96/128/160; mỗi conv ra32 rồi LReLU.2.", "shape": "process"}
+    L6_B3["L6_B3<br/>sr_compare.esrgan:Rdb.forward<br/>conv4(cat[x,x1,x2,x3]) → x4. Input channels 64/96/128/160;<br/>mỗi conv ra32 rồi LReLU.2."]
+    %% M9_NODE {"id": "L6_B4", "refs": ["sr_compare.esrgan:Rdb.forward"], "text": "conv5(cat[x,x1,x2,x3,x4]): 192→64 tuyến tính; RDB output=x+0.2·conv5. Conv3×3 zero-pad1; trả về A4.", "shape": "process"}
+    L6_B4["L6_B4<br/>sr_compare.esrgan:Rdb.forward<br/>conv5(cat[x,x1,x2,x3,x4]): 192→64 tuyến tính; RDB<br/>output=x+0.2·conv5. Conv3×3 zero-pad1; trả về A4."]
+  end
+  subgraph L6_P2["C · Thứ tự clamp/round và metric"]
+    direction TB
+    %% M9_NODE {"id": "L6_C1", "refs": ["sr_compare.esrgan:super_resolve"], "text": "Từ A6: normalized FP32 batch0 3×4H×4W → finite check → clamp[0,1] → ×255.", "shape": "process"}
+    L6_C1["L6_C1<br/>sr_compare.esrgan:super_resolve<br/>Từ A6: normalized FP32 batch0 3×4H×4W → finite check →<br/>clamp[0,1] → ×255."]
+    %% M9_NODE {"id": "L6_C2", "refs": ["sr_compare.esrgan:quantize_values"], "text": "Finite → clamp[0,255] → torch.round half-to-even → uint8; không half-up.", "shape": "process"}
+    L6_C2["L6_C2<br/>sr_compare.esrgan:quantize_values<br/>Finite → clamp[0,255] → torch.round half-to-even → uint8;<br/>không half-up."]
+    %% M9_NODE {"id": "L6_C3", "refs": ["sr_compare.esrgan:super_resolve"], "text": "permute/copy RGB uint8 4H×4W×3; lưu kèm prequant_float=(normalized×255) HWC chưa clamp.", "shape": "process"}
+    L6_C3["L6_C3<br/>sr_compare.esrgan:super_resolve<br/>permute/copy RGB uint8 4H×4W×3; lưu kèm<br/>prequant_float=(normalized×255) HWC chưa clamp."]
+    %% M9_NODE {"id": "L6_C4", "refs": ["sr_compare.metrics:evaluate"], "text": "HR/SR cùng shape → RGB uint8 → Y float64/crop4; RGB crop4 phụ. Không đổi metric cho GAN.", "shape": "process"}
+    L6_C4["L6_C4<br/>sr_compare.metrics:evaluate<br/>HR/SR cùng shape → RGB uint8 → Y float64/crop4; RGB crop4<br/>phụ. Không đổi metric cho GAN."]
+  end
+  L6_A1 --> L6_A2
+  L6_A2 --> L6_A3
+  L6_A3 --> L6_A4
+  L6_A4 --> L6_A5
+  L6_A5 --> L6_A6
+  L6_A4 -->|"chi tiết"| L6_B1
+  L6_B1 -->|"mỗi RDB"| L6_B2
+  L6_B2 --> L6_B3
+  L6_B3 --> L6_B4
+  L6_B4 -->|"trả về"| L6_A4
+  L6_A6 -->|"tiếp"| L6_C1
+  L6_C1 --> L6_C2
+  L6_C2 --> L6_C3
+  L6_C3 --> L6_C4
+  L6_NOTES["Giới hạn và nguồn<br/>Original ESRGAN architecture; BasicSR converted checkpoint. Conversion chain từ trọng số tác giả UNVERIFIED.<br/>RDB scale0.2 và RRDB scale0.2 là hai cấp riêng; RRDB scale toàn output RDB3, không scale (output−x).<br/>Nguồn: sr_compare.esrgan:SOURCE_NOTICE; docs/M6_ESRGAN_RESULTS.md. License/training overlap UNVERIFIED.<br/>Inference chỉ generator; không có discriminator, không mean shift; không phải Real-ESRGAN.<br/>Word: đặt từng panel riêng, rộng ít nhất 8.3 cm (chữ ≥9 pt); không ép toàn lưu đồ vào một trang.<br/>SVG giữ đủ panel/ID nối; crop/viewBox theo panel khi công cụ hỗ trợ. Import/export Word còn cần kiểm trực<br/>tiếp."]
